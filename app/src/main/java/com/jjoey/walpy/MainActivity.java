@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.activeandroid.query.Select;
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
 import com.jjoey.walpy.adapters.TabsPagerAdapter;
 import com.jjoey.walpy.fragments.ArtFragment;
@@ -24,11 +25,11 @@ import com.jjoey.walpy.fragments.SeasonsFragment;
 import com.jjoey.walpy.fragments.SpaceFragment;
 import com.jjoey.walpy.fragments.Top30Fragment;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
+import com.jjoey.walpy.models.Customize;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.RecyclerItemTouchListener;
-import com.jjoey.walpy.utils.WalpyPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Object> list = new ArrayList<>();
     private ItemsDrawerAdapter itemsDrawerAdapter;
 
-    private WalpyPrefsHelper prefsHelper;
     private TabsPagerAdapter pagerAdapter;
     private String space, nature, seasons, art, scifi, misc;
+    private Customize customize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUpTabs() {
-
-        prefsHelper = new WalpyPrefsHelper(this);
-        int count = prefsHelper.getSaveCount();
-        Log.d(TAG, "Tabs Count:\t" + count);
-
         setUpViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -79,37 +75,84 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpViewPager(ViewPager viewPager) {
 
-        space = prefsHelper.getKeySpace();
-        nature = prefsHelper.getKeyNature();
-        seasons = prefsHelper.getKeySeasons();
-        art = prefsHelper.getKeyArt();
-        scifi = prefsHelper.getKeyScifi();
-        misc = prefsHelper.getKeyMisc();
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.NATURE)
+                .executeSingle();
+        if (customize != null) {
+            nature = customize.tabName;
+            Log.d(TAG, "Nature Tab Name:\t" + nature);
+        }
 
-        pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(), this);
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.SPACE)
+                .executeSingle();
+        if (customize != null) {
+            space = customize.tabName;
+            Log.d(TAG, "Space Tab Name:\t" + space);
+        }
+
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.SEASONS)
+                .executeSingle();
+        if (customize != null) {
+            Log.d(TAG, "Seasons Tab Name:\t" + space);
+            seasons = customize.tabName;
+        }
+
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.ART)
+                .executeSingle();
+        if (customize != null) {
+            art = customize.tabName;
+            Log.d(TAG, "Art Tab Name:\t" + art);
+        }
+
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.SCI_FI)
+                .executeSingle();
+        if (customize != null) {
+            scifi = customize.tabName;
+            Log.d(TAG, "Sci-fi Tab Name:\t" + scifi);
+        }
+
+        customize = new Select()
+                .from(Customize.class)
+                .where("tabName = ? ", Constants.MISC)
+                .executeSingle();
+        if (customize != null) {
+            misc = customize.tabName;
+            Log.d(TAG, "Misc Tab Name:\t" + space);
+        }
+
+        pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addTab(new Top30Fragment(), Constants.Top30);
 
         if (nature != null) {
             pagerAdapter.addTab(new NatureFragment(), Constants.NATURE);
         }
 
-        if(space != null){
+        if (space != null) {
             pagerAdapter.addTab(new SpaceFragment(), Constants.SPACE);
         }
 
-        if (seasons != null){
+        if (seasons != null) {
             pagerAdapter.addTab(new SeasonsFragment(), Constants.SEASONS);
         }
 
-        if (art != null){
+        if (art != null) {
             pagerAdapter.addTab(new ArtFragment(), Constants.ART);
         }
 
-        if (scifi != null){
+        if (scifi != null) {
             pagerAdapter.addTab(new SciFiFragment(), Constants.SCI_FI);
         }
 
-        if (misc != null){
+        if (misc != null) {
             pagerAdapter.addTab(new MiscFragment(), Constants.MISC);
         }
 
@@ -168,25 +211,28 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 1:
 //                        startActivity(new Intent(MainActivity.this, PurchaseActivity.class));
+                        finish();
                         Log.d(TAG, "Ads Clicked");
                         break;
                     case 2:
                         startActivity(new Intent(MainActivity.this, FavoritesActivity.class));
+                        finish();
                         Log.d(TAG, "Favs Clicked");
                         break;
                     case 3:
 //                        startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                        finish();
                         Log.d(TAG, "Prefs Clicked");
                         break;
                     case 4:
                         startActivity(new Intent(MainActivity.this, ReviewActivity.class));
+                        finish();
                         Log.d(TAG, "Review Clicked");
                         break;
                     case 5:
                         startActivity(new Intent(MainActivity.this, FeedbackActivity.class));
+                        finish();
                         Log.d(TAG, "Fdbk Clicked");
-                        break;
-                    case 6:
                         break;
                 }
             }

@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import com.jjoey.walpy.utils.WalpyPrefsHelper;
+import com.activeandroid.query.Select;
+import com.jjoey.walpy.models.Customize;
+import com.jjoey.walpy.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +17,11 @@ import java.util.List;
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = TabsPagerAdapter.class.getSimpleName();
-
-    private WalpyPrefsHelper prefsHelper;
-
     private List<Fragment> fragmentList = new ArrayList<>();
     private List<String> titlesList = new ArrayList<>();
 
-    public TabsPagerAdapter(FragmentManager fm, Context ctx) {
+    public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
-        prefsHelper = new WalpyPrefsHelper(ctx);
     }
 
     @Override
@@ -33,8 +31,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        int count = prefsHelper.getSaveCount();
-        Log.d(TAG, "Tabs Count:\t" + count);
         return fragmentList.size();
     }
 

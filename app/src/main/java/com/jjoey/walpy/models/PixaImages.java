@@ -1,16 +1,16 @@
 package com.jjoey.walpy.models;
 
-public class NatureImages {
+public class PixaImages {
 
     public int imgId;
     public String largeImgURL;
     public String previewImgURL;
     public String pageURL;
 
-    public NatureImages() {
+    public PixaImages() {
     }
 
-    public NatureImages(int imgId, String largeImgURL, String previewImgURL, String pageURL) {
+    public PixaImages(int imgId, String largeImgURL, String previewImgURL, String pageURL) {
         this.imgId = imgId;
         this.largeImgURL = largeImgURL;
         this.previewImgURL = previewImgURL;

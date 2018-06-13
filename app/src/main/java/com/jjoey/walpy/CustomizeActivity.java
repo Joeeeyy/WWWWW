@@ -6,13 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.jjoey.walpy.adapters.CustomizeAdapter;
 import com.jjoey.walpy.models.Customize;
-import com.jjoey.walpy.utils.WalpyPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +25,10 @@ public class CustomizeActivity extends AppCompatActivity {
     private List<Customize> itemsList = new ArrayList<>();
     private CustomizeAdapter adapter;
 
-    private WalpyPrefsHelper prefsHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize);
-
-        prefsHelper = new WalpyPrefsHelper(this);
-        int count = prefsHelper.getSaveCount();
-        Log.d(TAG, "Tabs Count:\t" + count);
 
         init();
 
@@ -58,7 +50,6 @@ public class CustomizeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         adapter.invalidateCount();
-        prefsHelper.removeAllPrefs();
     }
 
     private void init() {

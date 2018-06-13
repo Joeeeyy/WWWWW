@@ -1,9 +1,8 @@
 package com.jjoey.walpy.utils;
 
-import java.net.PortUnreachableException;
-
 public class Constants {
 
+//    public static final int TABS_COUNT = 0;
     public static final String Top30 = "TOP 30";
 
     public static final String NATURE = "NATURE";

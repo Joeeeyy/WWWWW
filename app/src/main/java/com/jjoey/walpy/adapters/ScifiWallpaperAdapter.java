@@ -23,28 +23,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemViewHolder> {
+public class ScifiWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemViewHolder> {
 
-    private static final String TAG = NatureWallpaperAdapter.class.getSimpleName();
+    private static final String TAG = ScifiWallpaperAdapter.class.getSimpleName();
 
     private final Context context;
     private List<Object> itemsList;
     private PixaImages pixaImages;
-    private View view;
 
-    public NatureWallpaperAdapter(Context context, List<Object> itemsList) {
+    public ScifiWallpaperAdapter(Context context, List<Object> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
     }
 
     @Override
     public WallpaperItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpaper_items_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpaper_items_layout, parent, false);
         return new WallpaperItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final WallpaperItemViewHolder viewholder, final int position) {
+    public void onBindViewHolder(WallpaperItemViewHolder viewholder, final int position) {
         pixaImages = (PixaImages) itemsList.get(position);
 
         Picasso.with(context)
@@ -74,17 +73,6 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
                 }
 
                 // TODO: 6/13/2018 Fix Duplicate Favorite WP
-
-//                if (favorites.getImageId() == ((PixaImages) itemsList.get(position)).getImgId()) {
-//                    Toast.makeText(context, "This Wallpaper Has Been Favorited", Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "Duplicate Id in Favorites:\t" + favorites.getImageId());
-//                    Log.d(TAG, "Duplicate FavId in RecyclerList:\t" + ((PixaImages) itemsList.get(position)).getImgId());
-//                } else {
-//                    Log.d(TAG, "Favorites Id:\t" + favorites.getImageId());
-//                    favorites.setImageId(((PixaImages) itemsList.get(position)).getImgId());
-//                    favorites.save();
-//                }
-
                 Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
 
             }
@@ -121,6 +109,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
 
             }
         });
+
     }
 
     @Override

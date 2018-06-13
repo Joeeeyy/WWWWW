@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.activeandroid.query.Select;
 import com.jjoey.walpy.adapters.FavoritesAdapter;
@@ -21,7 +20,6 @@ import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
 import com.jjoey.walpy.utils.EmptyRecyclerView;
 import com.jjoey.walpy.utils.RecyclerItemTouchListener;
-import com.jjoey.walpy.utils.WalpyPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +39,11 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private List<Favorites> itemsList = new ArrayList<>();
     private FavoritesAdapter adapter;
-    private WalpyPrefsHelper prefsHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
-
-        prefsHelper = new WalpyPrefsHelper(this);
-        Log.d(TAG, "Nature Key:\t" + prefsHelper.getKeyNature());
 
         init();
         setSupportActionBar(toolbar);

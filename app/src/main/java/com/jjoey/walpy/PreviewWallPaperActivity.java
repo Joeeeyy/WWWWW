@@ -22,7 +22,6 @@ import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
 import com.jjoey.walpy.utils.RecyclerItemTouchListener;
 import com.jjoey.walpy.utils.RoundedCornerImageView;
-import com.jjoey.walpy.utils.WalpyPrefsHelper;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -44,8 +43,6 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
     private List<Object> list = new ArrayList<>();
     private ItemsDrawerAdapter itemsDrawerAdapter;
 
-    private WalpyPrefsHelper prefsHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +51,6 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         init();
         setSupportActionBar(toolbar);
         setUpDrawer();
-
-        prefsHelper = new WalpyPrefsHelper(this);
-        Log.d(TAG, "Tabs Count:\t" + prefsHelper.getSaveCount());
-        Log.d(TAG, "Nature Key:\t" + prefsHelper.getKeyNature());
 
         final String large_url = getIntent().getStringExtra("large_url");
         String preview_url = getIntent().getStringExtra("preview_url");
