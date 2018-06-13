@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFF</color>
+    <color name="colorPrimaryDark">#FFF</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="drawer_bkg_color">#ffe9dd</color>
+    <color name="text_color">#f35959</color>
+    <color name="text_color_gray">#828282</color>
+    <color name="customize_gradient_start_color">#fff7f7</color>
+    <color name="customize_gradient_end_color">#ffecee</color>
+    <color name="customize_gradient_center_color">#fcf0f0</color>
+    <color name="lets_go_start_gradient">#44c3e9</color>
+    <color name="lets_go_center_gradient">#31c1d2</color>
+    <color name="lets_go_end_gradient">#1cc0b8</color>
+    <color name="tab_sel_txt_color">#f79595</color>
+</resources>

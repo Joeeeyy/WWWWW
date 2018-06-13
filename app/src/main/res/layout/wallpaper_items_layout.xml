@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/holder_wp">
+
+        <com.jjoey.walpy.utils.RoundedCornerImageView
+            android:id="@+id/wallpaperItemImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="600px"
+            tools:src="@drawable/drawer_header_trimmed"
+            android:scaleType="fitXY" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="3"
+        android:background="@drawable/wallpaper_item_actions_bkg"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/shareWP_IV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/share_wp_btn"
+            android:padding="10dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/text_color_gray"/>
+
+        <TextView
+            android:id="@+id/setWallPaper_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_wp_txt"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/text_color_gray"/>
+
+        <ImageView
+            android:id="@+id/favoriteWP_IV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fav_wp_btn"
+            android:padding="10dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</LinearLayout>

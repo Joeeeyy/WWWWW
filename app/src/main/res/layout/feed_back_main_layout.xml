@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/feedback_btn"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/walpy_loves_fdbk"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:src="@drawable/drawer_header_trimmed"
+            android:layout_marginTop="0dp"/>
+
+        <EditText
+            android:id="@+id/inputFdbkET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:background="@drawable/feed_bk_bkg"
+            android:minHeight="160dp"/>
+
+        <Button
+            android:id="@+id/sendFdbkBtn"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/send_btn_bkg"
+            android:hint="@string/feedbk_hint"
+            android:textColorHint="@color/text_color_gray"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:text="@string/send"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
