@@ -97,6 +97,7 @@ public class CustomizeAdapter extends RecyclerView.Adapter<CustomizeViewHolder> 
                         if (viewholder.customiseCheckBox.isChecked()) {
                             viewholder.customiseCheckBox.setChecked(false);
 
+                            Customize.delete(Customize.class, id);
                             viewholder.customiseCheckBox.setVisibility(View.INVISIBLE);
 
                         } else {
@@ -159,6 +160,7 @@ public class CustomizeAdapter extends RecyclerView.Adapter<CustomizeViewHolder> 
                             viewholder.customiseCheckBox.setChecked(false);
 
                             Customize.delete(Customize.class, id);
+                            Log.d(TAG, "Deleted Misc Tab From DB");
                             viewholder.customiseCheckBox.setVisibility(View.INVISIBLE);
 
                         } else {
@@ -168,6 +170,8 @@ public class CustomizeAdapter extends RecyclerView.Adapter<CustomizeViewHolder> 
                             customize.setTabName(Constants.MISC);
                             customize.setTabsCount(count);
                             customize.save();
+
+                            Log.d(TAG, "Saved Misc Tab To DB");
                             viewholder.customiseCheckBox.setVisibility(View.VISIBLE);
 
                             id = customize.getId();

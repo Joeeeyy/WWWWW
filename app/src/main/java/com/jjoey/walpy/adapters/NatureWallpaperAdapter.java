@@ -73,7 +73,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
                     Log.d(TAG, "Favorites Id:\t" + favorites.getImageId());
                 }
 
-                // TODO: 6/13/2018 Fix Duplicate Favorite WP
+                //TODO: 6/13/2018 Fix Duplicate Favorite WP
 
 //                if (favorites.getImageId() == ((PixaImages) itemsList.get(position)).getImgId()) {
 //                    Toast.makeText(context, "This Wallpaper Has Been Favorited", Toast.LENGTH_SHORT).show();

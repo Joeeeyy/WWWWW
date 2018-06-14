@@ -46,12 +46,6 @@ public class CustomizeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        adapter.invalidateCount();
-    }
-
     private void init() {
         customizeRV = findViewById(R.id.customizeRV);
         letsGoBtn = findViewById(R.id.letsGoBtn);

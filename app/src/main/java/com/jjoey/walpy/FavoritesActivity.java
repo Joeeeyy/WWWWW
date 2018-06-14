@@ -176,4 +176,9 @@ public class FavoritesActivity extends AppCompatActivity {
         favsRV = findViewById(R.id.favsRV);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(FavoritesActivity.this, MainActivity.class));
+    }
 }

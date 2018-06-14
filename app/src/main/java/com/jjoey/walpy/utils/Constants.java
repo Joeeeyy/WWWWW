@@ -26,12 +26,8 @@ public class Constants {
      ***/
 
     public static final String UNSPLASH_BASE_URL = "https://api.unsplash.com/";
-    /**
-     *  Accept-Version: v1 Headers
-     *  Authorization: Client-ID YOUR_ACCESS_KEY
-     *  or
-     *  https://api.unsplash.com/photos/?client_id=YOUR_ACCESS_KEY
-     * */
+    public static final String SEARCH_URL = UNSPLASH_BASE_URL + "search/photos?client_id=e4ece34b0808e30e1940bab1f42ebf28a9b0f145aa87fa1ac0fed638cd905cae&page=1&query=";
+
     public static final String UNSPLASH_APP_ID = "28853";
     public static final String UNSPLASH_ACCESS_KEY = "e4ece34b0808e30e1940bab1f42ebf28a9b0f145aa87fa1ac0fed638cd905cae";
     public static final String UNSPLASH_SECRET_KEY = "34abdf7b41ab0b23d020928cec151848c03699917d7f8cb9a256592e2a445f52";

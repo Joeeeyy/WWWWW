@@ -18,6 +18,7 @@ import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.NatureWallpaperAdapter;
 import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
 import com.jjoey.walpy.models.PixaImages;
+import com.jjoey.walpy.models.UnsplashImages;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
 
@@ -63,6 +64,10 @@ public class SciFiFragment extends Fragment {
             Snackbar.make(getActivity().findViewById(android.R.id.content), "Check Connection", Snackbar.LENGTH_LONG).show();
         }
 
+        adapter = new ScifiWallpaperAdapter(getActivity(), objectList);
+        scifiRV.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
         return sv;
     }
 
@@ -102,7 +107,7 @@ public class SciFiFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (response != null){
-                            Log.d(TAG, "Nature Wps Response:\t" + response.toString());
+                            Log.d(TAG, "Pix Scifi Wps Response:\t" + response.toString());
                             try {
                                 JSONObject jsonObject = new JSONObject(response.toString());
                                 JSONArray array = jsonObject.getJSONArray("hits");
@@ -115,11 +120,9 @@ public class SciFiFragment extends Fragment {
                                     pixaImages.setPageURL(items.getString("pageURL"));
                                     pixaImages.setPreviewImgURL(items.getString("previewURL"));
 
-                                    objectList.add(pixaImages);
+                                    //objectList.add(pixaImages);
+                                    //adapter.notifyDataSetChanged();
                                     Log.d(TAG, "List size:\t" + objectList.size());
-                                    adapter = new ScifiWallpaperAdapter(getActivity(), objectList);
-                                    scifiRV.setAdapter(adapter);
-                                    adapter.notifyDataSetChanged();
 
                                 }
                             } catch (JSONException e) {
@@ -133,6 +136,56 @@ public class SciFiFragment extends Fragment {
                         Log.d(TAG, "Failure NATURE Wps:\t" + anError.getMessage().toString());
                     }
                 });
+
+        String s = Constants.SEARCH_URL + "scifi&per_page=70";
+        Log.d(TAG, "Unsplash Scifi URL:\t" + s);
+
+        AndroidNetworking.get(s)
+                .addHeaders("Accept-Version", "v1")
+                .addHeaders("CLIENT-ID", Constants.UNSPLASH_ACCESS_KEY)
+                .setTag("Unsplash Scifi req")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Un-Response:\t" + response.toString());
+                        if (response != null){
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.toString());
+                                JSONArray results = jsonObject.getJSONArray("results");
+
+                                for (int p = 0; p < results.length(); p++){
+                                    JSONObject items = results.getJSONObject(p);
+
+                                    UnsplashImages images = new UnsplashImages();
+                                    images.setImageId(items.getString("id"));
+
+                                    JSONObject urls = items.getJSONObject("urls");
+
+                                    images.setRawImg(urls.getString("raw"));
+                                    images.setFullImg(urls.getString("full"));
+                                    images.setRegularImg(urls.getString("regular"));
+                                    images.setSmallImg(urls.getString("small"));
+                                    images.setThumbImg(urls.getString("thumb"));
+
+                                    objectList.add(images);
+                                    adapter.notifyDataSetChanged();
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
+
     }
 
 }

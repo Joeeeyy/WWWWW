@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 .where("tabName = ? ", Constants.SEASONS)
                 .executeSingle();
         if (customize != null) {
-            Log.d(TAG, "Seasons Tab Name:\t" + space);
+            Log.d(TAG, "Seasons Tab Name:\t" + seasons);
             seasons = customize.tabName;
         }
 
