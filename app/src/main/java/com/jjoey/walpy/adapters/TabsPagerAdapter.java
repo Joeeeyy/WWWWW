@@ -67,4 +67,5 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public int getItemPosition(@NonNull Object object) {
         return POSITION_NONE;
     }
+
 }

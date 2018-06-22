@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.activeandroid.query.Select;
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
@@ -19,13 +20,12 @@ import com.jjoey.walpy.adapters.TabsPagerAdapter;
 import com.jjoey.walpy.fragments.ArtFragment;
 import com.jjoey.walpy.fragments.MiscFragment;
 import com.jjoey.walpy.fragments.NatureFragment;
-import com.jjoey.walpy.fragments.PrefsFragment;
 import com.jjoey.walpy.fragments.SciFiFragment;
 import com.jjoey.walpy.fragments.SeasonsFragment;
 import com.jjoey.walpy.fragments.SpaceFragment;
 import com.jjoey.walpy.fragments.Top30Fragment;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
-import com.jjoey.walpy.models.Customize;
+import com.jjoey.walpy.models.CustomizeItems;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
 import com.jjoey.walpy.utils.Constants;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar toolbar;
+    private ImageView navigationIcon;
     private DrawerLayout drawerLayout;
     private RecyclerView drawerRV;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabsPagerAdapter pagerAdapter;
     private String space, nature, seasons, art, scifi, misc;
-    private Customize customize;
+    private CustomizeItems customizeItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,57 +76,57 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpViewPager(ViewPager viewPager) {
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.NATURE)
                 .executeSingle();
-        if (customize != null) {
-            nature = customize.tabName;
+        if (customizeItems != null) {
+            nature = customizeItems.tabName;
             Log.d(TAG, "Nature Tab Name:\t" + nature);
         }
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.SPACE)
                 .executeSingle();
-        if (customize != null) {
-            space = customize.tabName;
+        if (customizeItems != null) {
+            space = customizeItems.tabName;
             Log.d(TAG, "Space Tab Name:\t" + space);
         }
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.SEASONS)
                 .executeSingle();
-        if (customize != null) {
+        if (customizeItems != null) {
             Log.d(TAG, "Seasons Tab Name:\t" + seasons);
-            seasons = customize.tabName;
+            seasons = customizeItems.tabName;
         }
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.ART)
                 .executeSingle();
-        if (customize != null) {
-            art = customize.tabName;
+        if (customizeItems != null) {
+            art = customizeItems.tabName;
             Log.d(TAG, "Art Tab Name:\t" + art);
         }
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.SCI_FI)
                 .executeSingle();
-        if (customize != null) {
-            scifi = customize.tabName;
+        if (customizeItems != null) {
+            scifi = customizeItems.tabName;
             Log.d(TAG, "Sci-fi Tab Name:\t" + scifi);
         }
 
-        customize = new Select()
-                .from(Customize.class)
+        customizeItems = new Select()
+                .from(CustomizeItems.class)
                 .where("tabName = ? ", Constants.MISC)
                 .executeSingle();
-        if (customize != null) {
-            misc = customize.tabName;
+        if (customizeItems != null) {
+            misc = customizeItems.tabName;
             Log.d(TAG, "Misc Tab Name:\t" + space);
         }
 
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             pagerAdapter.addTab(new MiscFragment(), Constants.MISC);
         }
 
-        pagerAdapter.addTabAtLastPosition(new PrefsFragment(), Constants.PREFS);
+//        pagerAdapter.addTabAtLastPosition(new PrefsFragment(), Constants.PREFS);
 
         viewPager.setAdapter(pagerAdapter);
     }
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
         list.add(itemsDrawer3);
 
-        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
+        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn_drawer);
         list.add(itemsDrawer4);
 
         itemsDrawerAdapter = new ItemsDrawerAdapter(this, list);
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleDrawerEvents() {
         setDrawerClickListener();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        navigationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -211,28 +212,23 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 1:
 //                        startActivity(new Intent(MainActivity.this, PurchaseActivity.class));
-                        finish();
-                        Log.d(TAG, "Ads Clicked");
+//                        finish();
                         break;
                     case 2:
                         startActivity(new Intent(MainActivity.this, FavoritesActivity.class));
                         finish();
-                        Log.d(TAG, "Favs Clicked");
                         break;
                     case 3:
-//                        startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                        startActivity(new Intent(MainActivity.this, UserPreferencesActivity.class));
                         finish();
-                        Log.d(TAG, "Prefs Clicked");
                         break;
                     case 4:
                         startActivity(new Intent(MainActivity.this, ReviewActivity.class));
                         finish();
-                        Log.d(TAG, "Review Clicked");
                         break;
                     case 5:
                         startActivity(new Intent(MainActivity.this, FeedbackActivity.class));
                         finish();
-                        Log.d(TAG, "Fdbk Clicked");
                         break;
                 }
             }
@@ -270,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
+        navigationIcon = findViewById(R.id.navigationIcon);
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerRV = findViewById(R.id.drawerRV);
         tabLayout = findViewById(R.id.tabLayout);

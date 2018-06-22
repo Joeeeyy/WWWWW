@@ -13,10 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
+import com.jjoey.walpy.fragments.SetWallpaperOptionsDialog;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
@@ -34,6 +36,7 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
     private static final String TAG = PreviewWallPaperActivity.class.getSimpleName();
 
     private Toolbar toolbar;
+    private ImageView navigationIcon;
     private DrawerLayout drawerLayout;
     private RecyclerView drawerRV;
 
@@ -53,7 +56,7 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         setUpDrawer();
 
         final String large_url = getIntent().getStringExtra("large_url");
-        String preview_url = getIntent().getStringExtra("preview_url");
+        final String preview_url = getIntent().getStringExtra("preview_url");
 
         Picasso.with(PreviewWallPaperActivity.this)
                 .load(preview_url)
@@ -63,38 +66,19 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         setWallpaperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setAsWallPaper(large_url);
+                showSetOptionsDialog(large_url, preview_url);
+                //setAsWallPaper(large_url);
             }
         });
 
     }
 
-    private void setAsWallPaper(String large_url) {
-        final WallpaperManager wpm = WallpaperManager.getInstance(PreviewWallPaperActivity.this);
-        Picasso.with(PreviewWallPaperActivity.this)
-                .load(large_url)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        try {
-                            wpm.setBitmap(bitmap);
-                            Toast.makeText(PreviewWallPaperActivity.this, "Your New Wallpaper Has Been Set", Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        Log.d(TAG, "Bitmap Load Failed");
-                        Toast.makeText(PreviewWallPaperActivity.this, "Could Not Set Wallpaper...Choose Another", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Log.d(TAG, "Prep to Load Bitmap");
-                    }
-                });
+    private void showSetOptionsDialog(String large_url, String preview_url) {
+        SetWallpaperOptionsDialog optionsDialog = new SetWallpaperOptionsDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("large_url", large_url);
+        bundle.putString("preview_url", preview_url);
+        optionsDialog.show(getSupportFragmentManager(), "SetWallpaperOptionsDialog");
     }
 
     private void setUpDrawer() {
@@ -128,7 +112,7 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
 
     private void handleDrawerEvents() {
         setDrawerClickListener();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        navigationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -190,6 +174,7 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
+        navigationIcon = findViewById(R.id.navigationIcon);
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerRV = findViewById(R.id.drawerRV);
         previewWPImg = findViewById(R.id.previewWPImg);

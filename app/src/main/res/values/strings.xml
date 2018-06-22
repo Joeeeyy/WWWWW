@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Walpy</string>
-    <string name="customize_screen_txt">help us customize your screen better. choose your favorite categories to begin with:</string>
+    <string name="customize_screen_txt">help us customizeItems your screen better. choose your favorite categories to begin with:</string>
     <string name="walpy_loves_fdbk">Walpy loves feedback!</string>
     <string name="send">SEND</string>
     <string name="feedbk_hint">Type your feedback...</string>
@@ -11,4 +11,11 @@
     <string name="remove">REMOVE</string>
     <string name="preview">PREVIEW</string>
     <string name="preview_set_wp_txt">SET AS WALLPAPER</string>
+    <string name="set_for">SET FOR</string>
+    <string name="lock_screen">LOCK SCREEN</string>
+    <string name="home_screen">HOME SCREEN</string>
+    <string name="set">SET</string>
+    <string name="search_fav_wps">Search your favorite wallpapers</string>
+    <string name="tap_to_reload">Tap to reload</string>
+    <string name="error_msg_unknown">An unexpected error occurred</string>
 </resources>

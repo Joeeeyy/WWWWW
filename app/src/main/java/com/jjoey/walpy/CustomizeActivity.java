@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.jjoey.walpy.adapters.CustomizeAdapter;
-import com.jjoey.walpy.models.Customize;
+import com.jjoey.walpy.models.AdapterHeaderItem;
+import com.jjoey.walpy.models.CustomizeFooter;
+import com.jjoey.walpy.models.CustomizeItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,8 @@ public class CustomizeActivity extends AppCompatActivity {
     private static final String TAG = CustomizeActivity.class.getSimpleName();
 
     private RecyclerView customizeRV;
-    private Button letsGoBtn;
 
-    private List<Customize> itemsList = new ArrayList<>();
+    private List<Object> objectList = new ArrayList<>();
     private CustomizeAdapter adapter;
 
     @Override
@@ -32,64 +33,57 @@ public class CustomizeActivity extends AppCompatActivity {
 
         init();
 
-        letsGoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (adapter.getNumChecked() > 0){
-                    startActivity(new Intent(CustomizeActivity.this, MainActivity.class));
-                    finish();
-                } else {
-                    Snackbar.make(findViewById(android.R.id.content), "Select A Category Before You Proceed", Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
-
     }
 
     private void init() {
         customizeRV = findViewById(R.id.customizeRV);
-        letsGoBtn = findViewById(R.id.letsGoBtn);
-
         setUpRV();
-
     }
 
     private void setUpRV() {
         customizeRV.setHasFixedSize(true);
         customizeRV.setLayoutManager(new LinearLayoutManager(this));
 
-        Customize cust = new Customize();
+        AdapterHeaderItem headerItem = new AdapterHeaderItem();
+        headerItem.setHeaderTitle("help us customise your screen better. choose your favorite categories to begin:");
+        objectList.add(headerItem);
+
+        CustomizeItems cust = new CustomizeItems();
         cust.setChecked(false);
-        cust.setIcon(R.drawable.naturecard);
-        itemsList.add(cust);
+        cust.setIcon(R.drawable.nature_card);
+        objectList.add(cust);
 
-        Customize customize = new Customize();
-        customize.setChecked(false);
-        customize.setIcon(R.drawable.spacecard);
-        itemsList.add(customize);
+        CustomizeItems customizeItems = new CustomizeItems();
+        customizeItems.setChecked(false);
+        customizeItems.setIcon(R.drawable.space_card);
+        objectList.add(customizeItems);
 
-        Customize customize2 = new Customize();
-        customize2.setChecked(false);
-        customize2.setIcon(R.drawable.seasonscard);
-        itemsList.add(customize2);
+        CustomizeItems customizeItems2 = new CustomizeItems();
+        customizeItems2.setChecked(false);
+        customizeItems2.setIcon(R.drawable.seasons_card);
+        objectList.add(customizeItems2);
 
-        Customize customize3 = new Customize();
-        customize3.setChecked(false);
-        customize3.setIcon(R.drawable.artcard);
-        itemsList.add(customize3);
+        CustomizeItems customizeItems3 = new CustomizeItems();
+        customizeItems3.setChecked(false);
+        customizeItems3.setIcon(R.drawable.art_card);
+        objectList.add(customizeItems3);
 
-        Customize customize4 = new Customize();
-        customize4.setChecked(false);
-        customize4.setIcon(R.drawable.scificard);
-        itemsList.add(customize4);
+        CustomizeItems customizeItems4 = new CustomizeItems();
+        customizeItems4.setChecked(false);
+        customizeItems4.setIcon(R.drawable.scifi_card);
+        objectList.add(customizeItems4);
 
-        Customize customize5 = new Customize();
-        customize5.setChecked(false);
-        customize5.setIcon(R.drawable.misccard);
-        itemsList.add(customize5);
+        CustomizeItems customizeItems5 = new CustomizeItems();
+        customizeItems5.setChecked(false);
+        customizeItems5.setIcon(R.drawable.misc_card);
+        objectList.add(customizeItems5);
 
-        adapter = new CustomizeAdapter(this, itemsList);
+        CustomizeFooter footer = new CustomizeFooter();
+        objectList.add(footer.getButton());
+
+        adapter = new CustomizeAdapter(this, objectList);
         customizeRV.setAdapter(adapter);
 
     }
+
 }

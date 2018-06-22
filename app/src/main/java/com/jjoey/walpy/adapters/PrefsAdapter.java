@@ -12,7 +12,7 @@ import com.activeandroid.query.Select;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.fragments.NatureFragment;
 import com.jjoey.walpy.fragments.SpaceFragment;
-import com.jjoey.walpy.models.Customize;
+import com.jjoey.walpy.models.CustomizeItems;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.viewholders.PrefsCustomizeViewHolder;
 import com.squareup.picasso.Picasso;
@@ -25,20 +25,23 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
     private static final String TAG = PrefsAdapter.class.getSimpleName();
 
     private final Context context;
-    private List<Customize> itemsList;
+    private List<CustomizeItems> itemsList;
+
+    public static final int HEADER_VIEW = 0;
+    public static final int ITEMS_VIEW = 1;
+    public static final int FOOTER_VIEW = 2;
 
     private long id_nature, id_space, id_seasons, id_art, id_scifi, id_misc;
-    private Customize cust;
+    private CustomizeItems cust;
 
     private TabsPagerAdapter pagerAdapter;
     private String nature, space, seasons, art, scifi, misc;
     private String tabNature, tabSpace, tabSeasons, tabArt, tabScifi, tabMisc;
 
-    public PrefsAdapter(Context context, List<Customize> itemsList) {
+    public PrefsAdapter(Context context, List<CustomizeItems> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
         pagerAdapter = new TabsPagerAdapter(((AppCompatActivity)context).getSupportFragmentManager());
-        Log.d(TAG, "Pager Adapter Init Success");
     }
 
     @Override
@@ -49,17 +52,17 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
 
     @Override
     public void onBindViewHolder(final PrefsCustomizeViewHolder viewholder, final int position) {
-        final Customize customize = itemsList.get(position);
+        final CustomizeItems customizeItems = itemsList.get(position);
 
         Picasso.with(context)
-                .load(customize.getIcon())
+                .load(customizeItems.getIcon())
                 .fit()
                 .into(viewholder.prefsSelImg);
 
         switch (position) {
             case 0:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.NATURE)
                         .executeSingle();
                 if (cust != null) {
@@ -75,7 +78,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                 break;
             case 1:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.SPACE)
                         .executeSingle();
                 if (cust != null) {
@@ -91,7 +94,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                 break;
             case 2:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.SEASONS)
                         .executeSingle();
                 if (cust != null) {
@@ -107,7 +110,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                 break;
             case 3:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.ART)
                         .executeSingle();
                 if (cust != null) {
@@ -123,7 +126,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                 break;
             case 4:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.SCI_FI)
                         .executeSingle();
                 if (cust != null) {
@@ -139,7 +142,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                 break;
             case 5:
                 cust = new Select()
-                        .from(Customize.class)
+                        .from(CustomizeItems.class)
                         .where("tabName = ? ", Constants.MISC)
                         .executeSingle();
                 if (cust != null) {
@@ -162,13 +165,13 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                     case 0:
                         if (viewholder.prefsCheckBox.isChecked()){
                             viewholder.prefsCheckBox.setChecked(false);
-                            Customize.delete(Customize.class, id_nature);
+                            CustomizeItems.delete(CustomizeItems.class, id_nature);
                             pagerAdapter.removeTab(new NatureFragment(), Constants.NATURE);
                         } else {
                             viewholder.prefsCheckBox.setChecked(true);
-                            customize.setTabId(UUID.randomUUID().toString());
-                            customize.setTabName(Constants.NATURE);
-                            customize.save();
+                            customizeItems.setTabId(UUID.randomUUID().toString());
+                            customizeItems.setTabName(Constants.NATURE);
+                            customizeItems.save();
 
                             pagerAdapter.addTab(new NatureFragment(), Constants.NATURE);
 
@@ -179,16 +182,16 @@ public class PrefsAdapter extends RecyclerView.Adapter<PrefsCustomizeViewHolder>
                         if (viewholder.prefsCheckBox.isChecked()){
                             viewholder.prefsCheckBox.setChecked(false);
 
-                            Customize.delete(Customize.class, id_space);
+                            CustomizeItems.delete(CustomizeItems.class, id_space);
                             Log.d(TAG, "Deleted Space id:\t" + id_space); // prints right log detail
                             pagerAdapter.removeTab(new SpaceFragment(), Constants.SPACE);
 
                         } else {
                             viewholder.prefsCheckBox.setChecked(true);
 
-                            customize.setTabId(UUID.randomUUID().toString());
-                            customize.setTabName(Constants.NATURE);
-                            customize.save();
+                            customizeItems.setTabId(UUID.randomUUID().toString());
+                            customizeItems.setTabName(Constants.NATURE);
+                            customizeItems.save();
 
                             pagerAdapter.addTab(new SpaceFragment(), Constants.SPACE);
 

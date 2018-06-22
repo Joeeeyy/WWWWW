@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true">
-        <shape android:shape="oval">
-            <solid android:color="@color/lets_go_end_gradient"/>
-            <size android:width="40dp"
-                android:height="40dp" />
-        </shape>
-    </item>
+    <item android:drawable="@drawable/checkmark_green" android:state_checked="true"></item>
     <item android:state_checked="false">
         <shape android:shape="oval">
-            <solid android:color="@color/customize_gradient_start_color"/>
-            <size android:height="40dp" android:width="40dp"/>
+            <solid android:color="@color/customize_gradient_start_color" />
+            <size android:width="40dp" android:height="40dp" />
         </shape>
     </item>
 </selector>

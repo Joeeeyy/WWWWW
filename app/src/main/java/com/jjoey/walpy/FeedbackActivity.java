@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +25,10 @@ import java.util.List;
 
 public class FeedbackActivity extends AppCompatActivity {
 
+    private static final String TAG = FeedbackActivity.class.getSimpleName();
+
     private Toolbar toolbar;
-    private ImageView closeIV;
+    private ImageView navigationIcon;
     private DrawerLayout drawerLayout;
     private RecyclerView drawerRV;
 
@@ -44,6 +47,13 @@ public class FeedbackActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setUpDrawer();
+
+        sendFdbkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setUpDrawer() {
@@ -76,7 +86,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     private void handleDrawerEvents() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        navigationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -94,22 +104,25 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 switch (position) {
-                    case 0:
-//                        startActivity(new Intent(MainActivity.this, PurchaseActivity.class));
-                        break;
                     case 1:
-                        startActivity(new Intent(FeedbackActivity.this, FavoritesActivity.class));
+//                        startActivity(new Intent(MainActivity.this, PurchaseActivity.class));
+                        finish();
                         break;
                     case 2:
-//                        startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                        startActivity(new Intent(FeedbackActivity.this, FavoritesActivity.class));
+                        finish();
                         break;
                     case 3:
-                        startActivity(new Intent(FeedbackActivity.this, ReviewActivity.class));
+                        startActivity(new Intent(FeedbackActivity.this, UserPreferencesActivity.class));
+                        finish();
                         break;
                     case 4:
-                        startActivity(new Intent(FeedbackActivity.this, FeedbackActivity.class));
+                        startActivity(new Intent(FeedbackActivity.this, ReviewActivity.class));
+                        finish();
                         break;
                     case 5:
+                        startActivity(new Intent(FeedbackActivity.this, FeedbackActivity.class));
+                        finish();
                         break;
                 }
             }
@@ -118,7 +131,6 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
 
             }
-
         }));
     }
 
@@ -140,8 +152,15 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
+        navigationIcon = findViewById(R.id.navigationIcon);
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerRV = findViewById(R.id.drawerRV);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(FeedbackActivity.this, MainActivity.class));
     }
 
 }

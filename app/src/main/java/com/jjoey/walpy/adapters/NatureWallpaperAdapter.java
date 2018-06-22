@@ -13,13 +13,12 @@ import android.widget.Toast;
 
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.models.Favorites;
-import com.jjoey.walpy.models.PixaImages;
+import com.jjoey.walpy.models.UnsplashImages;
 import com.jjoey.walpy.viewholders.WallpaperItemViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +28,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
 
     private final Context context;
     private List<Object> itemsList;
-    private PixaImages pixaImages;
+    private UnsplashImages unsplashImages;
     private View view;
 
     public NatureWallpaperAdapter(Context context, List<Object> itemsList) {
@@ -45,10 +44,10 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
 
     @Override
     public void onBindViewHolder(final WallpaperItemViewHolder viewholder, final int position) {
-        pixaImages = (PixaImages) itemsList.get(position);
 
+        unsplashImages = (UnsplashImages) itemsList.get(position);
         Picasso.with(context)
-                .load(pixaImages.getLargeImgURL())
+                .load(unsplashImages.getRegularImg())
                 .placeholder(R.drawable.drawer_header_trimmed)
                 .into(viewholder.wallpaperItemImg);
 
@@ -57,34 +56,9 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
             public void onClick(View view) {
                 Favorites favorites = new Favorites();
                 favorites.setFavoritesId(UUID.randomUUID().toString());
-                favorites.setLargeImgURL(pixaImages.getLargeImgURL());
-                favorites.setPreviewImgURL(pixaImages.getPreviewImgURL());
-
-                List<Integer> favoritesList = new ArrayList<>();
-                favoritesList.add(((PixaImages) itemsList.get(position)).getImgId());
-
-                if (favoritesList.contains(favorites.getImageId())){
-                    Toast.makeText(context, "This Wallpaper Has Been Favorited", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Duplicate Id in Favorites:\t" + favorites.getImageId());
-                    Log.d(TAG, "Duplicate FavId in RecyclerList:\t" + ((PixaImages) itemsList.get(position)).getImgId());
-                } else {
-                    favorites.setImageId(favorites.getImageId());
-                    favorites.save();
-                    Log.d(TAG, "Favorites Id:\t" + favorites.getImageId());
-                }
-
-                //TODO: 6/13/2018 Fix Duplicate Favorite WP
-
-//                if (favorites.getImageId() == ((PixaImages) itemsList.get(position)).getImgId()) {
-//                    Toast.makeText(context, "This Wallpaper Has Been Favorited", Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "Duplicate Id in Favorites:\t" + favorites.getImageId());
-//                    Log.d(TAG, "Duplicate FavId in RecyclerList:\t" + ((PixaImages) itemsList.get(position)).getImgId());
-//                } else {
-//                    Log.d(TAG, "Favorites Id:\t" + favorites.getImageId());
-//                    favorites.setImageId(((PixaImages) itemsList.get(position)).getImgId());
-//                    favorites.save();
-//                }
-
+                favorites.setLargeImgURL(unsplashImages.getRegularImg());
+                favorites.setPreviewImgURL(unsplashImages.getRegularImg());
+                favorites.save();
                 Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
 
             }
@@ -94,8 +68,9 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
             @Override
             public void onClick(View view) {
                 final WallpaperManager wpm = WallpaperManager.getInstance(context);
+
                 Picasso.with(context)
-                        .load(((PixaImages) itemsList.get(position)).getLargeImgURL())
+                        .load(((UnsplashImages) itemsList.get(position)).getRegularImg())
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -121,6 +96,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
 
             }
         });
+
     }
 
     @Override

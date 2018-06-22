@@ -7,15 +7,26 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 
 public class Utils {
 
     public static boolean isNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return cm != null && networkInfo.isConnected();
+        if (cm != null && networkInfo.isConnected()){
+            return true;
+        }
+        return false;
+    }
+
+    public static InputStream bitmapToStream(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 
     public static byte[] bitmapToByteArray(Bitmap cameraBitmap) {

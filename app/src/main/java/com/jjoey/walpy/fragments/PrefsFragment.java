@@ -8,13 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.jjoey.walpy.R;
-import com.jjoey.walpy.adapters.CustomizeAdapter;
 import com.jjoey.walpy.adapters.PrefsAdapter;
-import com.jjoey.walpy.adapters.TabsPagerAdapter;
-import com.jjoey.walpy.models.Customize;
+import com.jjoey.walpy.models.CustomizeItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,7 @@ public class PrefsFragment extends Fragment {
 
     private RecyclerView prefsRV;
 
-    private List<Customize> itemsList = new ArrayList<>();
+    private List<CustomizeItems> itemsList = new ArrayList<>();
     private PrefsAdapter adapter;
 
     public PrefsFragment() {
@@ -49,42 +46,41 @@ public class PrefsFragment extends Fragment {
     private void init(View view) {
         prefsRV = view.findViewById(R.id.prefsRV);
         setUpRV();
-
     }
 
     private void setUpRV() {
         prefsRV.setHasFixedSize(true);
         prefsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Customize cust = new Customize();
+        CustomizeItems cust = new CustomizeItems();
         cust.setChecked(false);
-        cust.setIcon(R.drawable.naturecard);
+        cust.setIcon(R.drawable.nature_card);
         itemsList.add(cust);
 
-        Customize customize = new Customize();
-        customize.setChecked(false);
-        customize.setIcon(R.drawable.spacecard);
-        itemsList.add(customize);
+        CustomizeItems customizeItems = new CustomizeItems();
+        customizeItems.setChecked(false);
+        customizeItems.setIcon(R.drawable.space_card);
+        itemsList.add(customizeItems);
 
-        Customize customize2 = new Customize();
-        customize2.setChecked(false);
-        customize2.setIcon(R.drawable.seasonscard);
-        itemsList.add(customize2);
+        CustomizeItems customizeItems2 = new CustomizeItems();
+        customizeItems2.setChecked(false);
+        customizeItems2.setIcon(R.drawable.seasons_card);
+        itemsList.add(customizeItems2);
 
-        Customize customize3 = new Customize();
-        customize3.setChecked(false);
-        customize3.setIcon(R.drawable.artcard);
-        itemsList.add(customize3);
+        CustomizeItems customizeItems3 = new CustomizeItems();
+        customizeItems3.setChecked(false);
+        customizeItems3.setIcon(R.drawable.art_card);
+        itemsList.add(customizeItems3);
 
-        Customize customize4 = new Customize();
-        customize4.setChecked(false);
-        customize4.setIcon(R.drawable.scificard);
-        itemsList.add(customize4);
+        CustomizeItems customizeItems4 = new CustomizeItems();
+        customizeItems4.setChecked(false);
+        customizeItems4.setIcon(R.drawable.scifi_card);
+        itemsList.add(customizeItems4);
 
-        Customize customize5 = new Customize();
-        customize5.setChecked(false);
-        customize5.setIcon(R.drawable.misccard);
-        itemsList.add(customize5);
+        CustomizeItems customizeItems5 = new CustomizeItems();
+        customizeItems5.setChecked(false);
+        customizeItems5.setIcon(R.drawable.misc_card);
+        itemsList.add(customizeItems5);
 
         adapter = new PrefsAdapter(getActivity(), itemsList);
         prefsRV.setAdapter(adapter);

@@ -1,18 +1,16 @@
 package com.jjoey.walpy.viewholders;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.jjoey.walpy.R;
 
-public class CustomizeViewHolder extends RecyclerView.ViewHolder {
+public class CustomizeItemsViewHolder extends RecyclerView.ViewHolder {
 
-    private static final String TAG = CustomizeViewHolder.class.getSimpleName();
+    private static final String TAG = CustomizeItemsViewHolder.class.getSimpleName();
 
     public CheckBox customiseCheckBox;
     public ImageView customizeSelImg;
@@ -20,7 +18,7 @@ public class CustomizeViewHolder extends RecyclerView.ViewHolder {
 
     public int height, width;
 
-    public CustomizeViewHolder(View itemView) {
+    public CustomizeItemsViewHolder(View itemView) {
         super(itemView);
 
         customiseCheckBox = itemView.findViewById(R.id.customiseCheckBox);

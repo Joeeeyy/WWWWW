@@ -16,7 +16,9 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.NatureWallpaperAdapter;
+import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
 import com.jjoey.walpy.models.PixaImages;
+import com.jjoey.walpy.models.UnsplashImages;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
 
@@ -40,6 +42,9 @@ public class NatureFragment extends Fragment {
     private NatureWallpaperAdapter wallpaperAdapter;
     private PixaImages pixaImages;
 
+    private static final int PAGE_INDEX = 1;
+    private static final int PER_PAGE = 20;
+
     public NatureFragment() {
         // Required empty public constructor
     }
@@ -61,40 +66,54 @@ public class NatureFragment extends Fragment {
             Snackbar.make(nv.findViewById(android.R.id.content), "Check Connection", Snackbar.LENGTH_LONG).show();
         }
 
+        wallpaperAdapter = new NatureWallpaperAdapter(getActivity(), objectList);
+        natureRV.setAdapter(wallpaperAdapter);
+        wallpaperAdapter.notifyDataSetChanged();
+
         return nv;
     }
 
     private void fetchWallpapers() {
-        String url = Constants.PIXABAY_BASE_URL + "?key=" + Constants.PIX_API_KEY + "&q=nature&orientation=vertical&category=nature";
-        Log.d(TAG, "Nature URL:\t" + url);
+
+        String url = Constants.SEARCH_URL + "nature&page="+ PAGE_INDEX + "per_page=" + PER_PAGE;
+//        String url = Constants.SEARCH_URL + "nature&per_page=" + PER_PAGE;
+        Log.d(TAG, "Nature Unsplash URL:\t" + url);
+
         AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
-                .setTag("Get Nature Wps")
-//                .getResponseOnlyIfCached()
+                .setTag("Get Seasons Wallpapers")
+                .getResponseOnlyFromNetwork()
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Un-Response:\t" + response.toString());
                         if (response != null){
-                            Log.d(TAG, "Nature Wps Response:\t" + response.toString());
                             try {
                                 JSONObject jsonObject = new JSONObject(response.toString());
-                                JSONArray array = jsonObject.getJSONArray("hits");
-                                for (int m = 0; m < array.length(); m++){
-                                    JSONObject items = array.getJSONObject(m);
+                                JSONArray results = jsonObject.getJSONArray("results");
 
-                                    pixaImages = new PixaImages();
-                                    pixaImages.setImgId(items.getInt("id"));
-                                    pixaImages.setLargeImgURL(items.getString("largeImageURL"));
-                                    pixaImages.setPageURL(items.getString("pageURL"));
-                                    pixaImages.setPreviewImgURL(items.getString("previewURL"));
+                                for (int p = 0; p < results.length(); p++){
+                                    JSONObject items = results.getJSONObject(p);
 
-                                    objectList.add(pixaImages);
-                                    Log.d(TAG, "List size:\t" + objectList.size());
-                                    wallpaperAdapter = new NatureWallpaperAdapter(getActivity(), objectList);
-                                    natureRV.setAdapter(wallpaperAdapter);
+                                    UnsplashImages images = new UnsplashImages();
+                                    images.setImageId(items.getString("id"));
+
+                                    JSONObject urls = items.getJSONObject("urls");
+
+                                    images.setRawImg(urls.getString("raw"));
+                                    images.setFullImg(urls.getString("full"));
+                                    images.setRegularImg(urls.getString("regular"));
+                                    images.setSmallImg(urls.getString("small"));
+                                    images.setThumbImg(urls.getString("thumb"));
+
+                                    objectList.add(images);
+                                    wallpaperAdapter.notifyDataSetChanged();
+
+                                    Log.d(TAG, "List Size:\t" + objectList.size());
 
                                 }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -103,9 +122,10 @@ public class NatureFragment extends Fragment {
 
                     @Override
                     public void onError(ANError anError) {
-                        Log.d(TAG, "Failure NATURE Wps:\t" + anError.getMessage().toString());
+
                     }
                 });
+
     }
 
     @Override

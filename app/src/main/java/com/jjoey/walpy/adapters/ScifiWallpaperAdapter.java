@@ -30,7 +30,6 @@ public class ScifiWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVie
 
     private final Context context;
     private List<Object> itemsList;
-    private PixaImages pixaImages;
     private UnsplashImages unsplashImages;
 
     public ScifiWallpaperAdapter(Context context, List<Object> itemsList) {
@@ -45,13 +44,7 @@ public class ScifiWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVie
     }
 
     @Override
-    public void onBindViewHolder(WallpaperItemViewHolder viewholder, final int position) {
-        //pixaImages = (PixaImages) itemsList.get(position);
-
-//        Picasso.with(context)
-//                .load(pixaImages.getLargeImgURL())
-//                .placeholder(R.drawable.drawer_header_trimmed)
-//                .into(viewholder.wallpaperItemImg);
+    public void onBindViewHolder(final WallpaperItemViewHolder viewholder, final int position) {
 
         unsplashImages = (UnsplashImages) itemsList.get(position);
         Picasso.with(context)
@@ -76,30 +69,6 @@ public class ScifiWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVie
             @Override
             public void onClick(View view) {
                 final WallpaperManager wpm = WallpaperManager.getInstance(context);
-//                Picasso.with(context)
-//                        .load(((PixaImages) itemsList.get(position)).getLargeImgURL())
-//                        .into(new Target() {
-//                            @Override
-//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                try {
-//                                    wpm.setBitmap(bitmap);
-//                                    Toast.makeText(context, "Your New Wallpaper Has Been Set", Toast.LENGTH_SHORT).show();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onBitmapFailed(Drawable errorDrawable) {
-//                                Log.d(TAG, "Bitmap Load Failed");
-//                                Toast.makeText(context, "Could Not Set Wallpaper...Choose Another", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                                Log.d(TAG, "Prep to Load Bitmap");
-//                            }
-//                        });
 
                 Picasso.with(context)
                         .load(((UnsplashImages) itemsList.get(position)).getRegularImg())

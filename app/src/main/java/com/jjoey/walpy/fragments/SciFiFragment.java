@@ -15,9 +15,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
-import com.jjoey.walpy.adapters.NatureWallpaperAdapter;
 import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
-import com.jjoey.walpy.models.PixaImages;
 import com.jjoey.walpy.models.UnsplashImages;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
@@ -41,8 +39,8 @@ public class SciFiFragment extends Fragment {
     private List<Object> objectList = new ArrayList<>();
     private ScifiWallpaperAdapter adapter;
 
-    private boolean hasItems = false;
-    private PixaImages pixaImages;
+    private static final int PAGE_INDEX = 1;
+    private static final int PER_PAGE = 20;
 
     public SciFiFragment() {
         // Required empty public constructor
@@ -75,72 +73,26 @@ public class SciFiFragment extends Fragment {
     public void onPause() {
         super.onPause();
         objectList.clear();
-        objectList.remove(pixaImages);
-        Log.d(TAG, "onPause---Size:\t" + objectList.size());
     }
 
     @Override
     public void onStop() {
         super.onStop();
         objectList.clear();
-        objectList.remove(pixaImages);
-        Log.d(TAG, "onStop---Size:\t" + objectList.size());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         objectList.clear();
-        objectList.remove(pixaImages);
-        Log.d(TAG, "onDestroy---Size:\t" + objectList.size());
     }
 
     private void fetchWallpapers() {
-        String url = Constants.PIXABAY_BASE_URL + "?key=" + Constants.PIX_API_KEY + "&q=nature&orientation=vertical&category=science";
-        Log.d(TAG, "Scifi URL:\t" + url);
+        String url = Constants.SEARCH_URL + "scifi&page="+ PAGE_INDEX + "per_page=" + PER_PAGE;
+//        String s = Constants.SEARCH_URL + "scifi&per_page=" + PER_PAGE;
+        Log.d(TAG, "Unsplash Scifi URL:\t" + url);
+
         AndroidNetworking.get(url)
-                .setPriority(Priority.HIGH)
-                .setTag("Get Scifi Wps")
-//                .getResponseOnlyIfCached()
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if (response != null){
-                            Log.d(TAG, "Pix Scifi Wps Response:\t" + response.toString());
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.toString());
-                                JSONArray array = jsonObject.getJSONArray("hits");
-                                for (int m = 0; m < array.length(); m++){
-                                    JSONObject items = array.getJSONObject(m);
-
-                                    pixaImages = new PixaImages();
-                                    pixaImages.setImgId(items.getInt("id"));
-                                    pixaImages.setLargeImgURL(items.getString("largeImageURL"));
-                                    pixaImages.setPageURL(items.getString("pageURL"));
-                                    pixaImages.setPreviewImgURL(items.getString("previewURL"));
-
-                                    //objectList.add(pixaImages);
-                                    //adapter.notifyDataSetChanged();
-                                    Log.d(TAG, "List size:\t" + objectList.size());
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d(TAG, "Failure NATURE Wps:\t" + anError.getMessage().toString());
-                    }
-                });
-
-        String s = Constants.SEARCH_URL + "scifi&per_page=70";
-        Log.d(TAG, "Unsplash Scifi URL:\t" + s);
-
-        AndroidNetworking.get(s)
                 .addHeaders("Accept-Version", "v1")
                 .addHeaders("CLIENT-ID", Constants.UNSPLASH_ACCESS_KEY)
                 .setTag("Unsplash Scifi req")
@@ -171,6 +123,8 @@ public class SciFiFragment extends Fragment {
 
                                     objectList.add(images);
                                     adapter.notifyDataSetChanged();
+
+                                    Log.d(TAG, "List Size:\t" + objectList.size());
 
                                 }
 

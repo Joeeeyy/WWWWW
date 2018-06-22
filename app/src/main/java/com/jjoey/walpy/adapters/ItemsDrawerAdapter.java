@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
-import com.jjoey.walpy.viewholders.HeaderItemViewHolder;
+import com.jjoey.walpy.viewholders.DrawerHeaderItemViewHolder;
 import com.jjoey.walpy.viewholders.ItemsDrawerViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +34,7 @@ public class ItemsDrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER_VIEW) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_drawer_layout, parent, false);
-            return new HeaderItemViewHolder(view);
+            return new DrawerHeaderItemViewHolder(view);
         } else if (viewType == ITEMS_VIEW) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_drawer_layout, parent, false);
             return new ItemsDrawerViewHolder(view);
@@ -44,11 +44,11 @@ public class ItemsDrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof HeaderItemViewHolder) {
+        if (holder instanceof DrawerHeaderItemViewHolder) {
             ItemsHeader header = (ItemsHeader) itemsList.get(position);
             Picasso.with(context)
                     .load(header.getHeaderIcon())
-                    .into(((HeaderItemViewHolder) holder).headerIconImg);
+                    .into(((DrawerHeaderItemViewHolder) holder).drawerHeaderIconImg);
 
         } else if (holder instanceof ItemsDrawerViewHolder) {
             ItemsDrawer items = (ItemsDrawer) itemsList.get(position);

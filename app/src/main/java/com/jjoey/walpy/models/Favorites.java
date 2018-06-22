@@ -4,10 +4,10 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-@Table(name = "favoritee")
+@Table(name = "favorites")
 public class Favorites extends Model{
 
-    @Column(name = "favrites_id")
+    @Column(name = "favorites_id")
     public String favoritesId;
 
     @Column(name = "image_id")

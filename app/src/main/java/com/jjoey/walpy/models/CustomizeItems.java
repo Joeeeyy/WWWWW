@@ -5,7 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "customise_tabs")
-public class Customize extends Model{
+public class CustomizeItems extends Model{
 
     public boolean isChecked;
     public int icon;
@@ -19,9 +19,9 @@ public class Customize extends Model{
     @Column(name = "tabsCount")
     public int tabsCount;
 
-    public Customize() {  }
+    public CustomizeItems() {  }
 
-    public Customize(boolean isChecked, int icon, String tabId, String tabName, int tabsCount) {
+    public CustomizeItems(boolean isChecked, int icon, String tabId, String tabName, int tabsCount) {
         this.isChecked = isChecked;
         this.icon = icon;
         this.tabId = tabId;

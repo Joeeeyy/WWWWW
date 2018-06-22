@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/headerIconIV"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        tools:src="@drawable/feedback_btn"/>
+
+    <TextView
+        android:id="@+id/headerTitleTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="You can toggle through your bla bla bla..."
+        android:textSize="17sp"
+        android:fontFamily="@font/open_sans_semi_bold"
+        android:layout_below="@id/headerIconIV"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+
+</RelativeLayout>

@@ -12,28 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?android:attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:navigationIcon="@drawable/nav_icon">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:src="@drawable/walpy_header_logo"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.Toolbar>
+        <include layout="@layout/app_toolbar"/>
 
         <LinearLayout
             android:layout_width="match_parent"

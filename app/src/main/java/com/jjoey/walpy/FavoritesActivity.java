@@ -1,20 +1,23 @@
 package com.jjoey.walpy;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.activeandroid.query.Select;
 import com.jjoey.walpy.adapters.FavoritesAdapter;
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
+import com.jjoey.walpy.models.AdapterHeaderItem;
 import com.jjoey.walpy.models.Favorites;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
@@ -29,6 +32,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private static final String TAG = FavoritesActivity.class.getSimpleName();
 
     private Toolbar toolbar;
+    private ImageView navigationIcon;
     private DrawerLayout drawerLayout;
     private RecyclerView drawerRV;
 
@@ -36,6 +40,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private ItemsDrawerAdapter itemsDrawerAdapter;
 
     private EmptyRecyclerView favsRV;
+    private LinearLayout emptyState;
 
     private List<Favorites> itemsList = new ArrayList<>();
     private FavoritesAdapter adapter;
@@ -54,8 +59,9 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
-    public List<Favorites> getAllFavorites(){
+    public List<Favorites> getAllFavorites() {
         return new Select()
+                .all()
                 .from(Favorites.class)
                 .orderBy("id ASC")
                 .execute();
@@ -64,6 +70,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private void getFavorites() {
         favsRV.setHasFixedSize(true);
         favsRV.setLayoutManager(new LinearLayoutManager(this));
+        favsRV.setEmptyView(emptyState);
 
         itemsList = getAllFavorites();
         Log.d(TAG, "Favorites List Size:\t" + itemsList.size());
@@ -104,7 +111,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void handleDrawerEvents() {
         setDrawerClickListener();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        navigationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -127,21 +134,15 @@ public class FavoritesActivity extends AppCompatActivity {
                         break;
                     case 2:
                         startActivity(new Intent(FavoritesActivity.this, FavoritesActivity.class));
-                        Log.d(TAG, "Favs Clicked");
                         break;
                     case 3:
-//                        startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
-                        Log.d(TAG, "Prefs Clicked");
+                        startActivity(new Intent(FavoritesActivity.this, UserPreferencesActivity.class));
                         break;
                     case 4:
                         startActivity(new Intent(FavoritesActivity.this, ReviewActivity.class));
-                        Log.d(TAG, "Review Clicked");
                         break;
                     case 5:
                         startActivity(new Intent(FavoritesActivity.this, FeedbackActivity.class));
-                        Log.d(TAG, "Fdbk Clicked");
-                        break;
-                    case 6:
                         break;
                 }
             }
@@ -171,7 +172,9 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
+        navigationIcon = findViewById(R.id.navigationIcon);
         drawerLayout = findViewById(R.id.drawerLayout);
+        emptyState = findViewById(R.id.emptyState);
         drawerRV = findViewById(R.id.drawerRV);
         favsRV = findViewById(R.id.favsRV);
     }
@@ -181,4 +184,5 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(FavoritesActivity.this, MainActivity.class));
     }
+
 }

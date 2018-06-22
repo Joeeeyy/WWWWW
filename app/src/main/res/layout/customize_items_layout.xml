@@ -25,7 +25,7 @@
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/customiseCheckBox"
             android:contentDescription="@string/app_name"
-            tools:src="@drawable/artcard"
+            tools:src="@drawable/art_card"
             android:layout_marginLeft="8dp"/>
 
     </RelativeLayout>

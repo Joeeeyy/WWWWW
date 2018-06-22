@@ -15,7 +15,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:button="@drawable/custom_checkbox_bkg"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"/>
 
         <ImageView
             android:id="@+id/prefsSelImg"
@@ -24,8 +25,8 @@
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/customiseCheckBox"
             android:contentDescription="@string/app_name"
-            tools:src="@drawable/artcard"
-            android:layout_marginLeft="8dp"/>
+            tools:src="@drawable/art_card"
+            android:layout_marginLeft="35dp"/>
 
     </RelativeLayout>
 
