@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/prefs_doneBtn"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="I'M DONE"
+        android:textSize="20sp"
+        android:elevation="8dp"
+        android:translationZ="2dp"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="@font/open_sans_semi_bold"
+        android:textColor="@android:color/white"
+        android:background="@drawable/lets_go_btn_bkg"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/customizeRV"
+        android:layout_gravity="center_horizontal"/>
+
+</RelativeLayout>

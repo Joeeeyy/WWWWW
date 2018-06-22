@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
 import com.jjoey.walpy.adapters.PrefsAdapter;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
+import com.jjoey.walpy.models.AdapterHeaderItem;
 import com.jjoey.walpy.models.CustomizeItems;
 import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
+import com.jjoey.walpy.models.PrefsCustomizeFooter;
 import com.jjoey.walpy.utils.RecyclerItemTouchListener;
 
 import java.util.ArrayList;
@@ -32,10 +34,10 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private RecyclerView drawerRV, prefsRV;
 
-    private List<Object> list = new ArrayList<>();
+    private List<Object> drawerList = new ArrayList<>();
     private ItemsDrawerAdapter itemsDrawerAdapter;
 
-    private List<CustomizeItems> itemsList = new ArrayList<>();
+    private List<Object> itemsList = new ArrayList<>();
     private PrefsAdapter adapter;
 
     @Override
@@ -55,24 +57,24 @@ public class UserPreferencesActivity extends AppCompatActivity {
         drawerRV.setLayoutManager(new LinearLayoutManager(this));
 
         ItemsHeader header = new ItemsHeader(R.drawable.drawer_header_trimmed);
-        list.add(header);
+        drawerList.add(header);
 
         ItemsDrawer itemsDrawer = new ItemsDrawer(R.drawable.goadfree_btn);
-        list.add(itemsDrawer);
+        drawerList.add(itemsDrawer);
 
         ItemsDrawer itemsDrawer1 = new ItemsDrawer(R.drawable.favourites_btn);
-        list.add(itemsDrawer1);
+        drawerList.add(itemsDrawer1);
 
         ItemsDrawer itemsDrawer2 = new ItemsDrawer(R.drawable.preferences_btn);
-        list.add(itemsDrawer2);
+        drawerList.add(itemsDrawer2);
 
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
-        list.add(itemsDrawer3);
+        drawerList.add(itemsDrawer3);
 
         ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
-        list.add(itemsDrawer4);
+        drawerList.add(itemsDrawer4);
 
-        itemsDrawerAdapter = new ItemsDrawerAdapter(this, list);
+        itemsDrawerAdapter = new ItemsDrawerAdapter(this, drawerList);
         drawerRV.setAdapter(itemsDrawerAdapter);
 
         handleDrawerEvents();
@@ -154,6 +156,11 @@ public class UserPreferencesActivity extends AppCompatActivity {
         prefsRV.setHasFixedSize(true);
         prefsRV.setLayoutManager(new LinearLayoutManager(UserPreferencesActivity.this));
 
+        AdapterHeaderItem headerItem = new AdapterHeaderItem();
+        headerItem.setHeaderTitle("click on the cards to add or remove preferences");
+        headerItem.setHeaderIcon(R.drawable.preferences_txt);
+        itemsList.add(headerItem);
+
         CustomizeItems cust = new CustomizeItems();
         cust.setChecked(false);
         cust.setIcon(R.drawable.nature_card);
@@ -183,6 +190,9 @@ public class UserPreferencesActivity extends AppCompatActivity {
         customizeItems5.setChecked(false);
         customizeItems5.setIcon(R.drawable.misc_card);
         itemsList.add(customizeItems5);
+
+        PrefsCustomizeFooter prefsCustomizeFooter = new PrefsCustomizeFooter();
+        itemsList.add(prefsCustomizeFooter.getDoneBtn());
 
         adapter = new PrefsAdapter(UserPreferencesActivity.this, itemsList);
         prefsRV.setAdapter(adapter);

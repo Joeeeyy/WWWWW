@@ -79,12 +79,12 @@ public class ReviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    setDrawerClickListener();
                 } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
             }
         });
+        setDrawerClickListener();
     }
 
     private void setDrawerClickListener() {

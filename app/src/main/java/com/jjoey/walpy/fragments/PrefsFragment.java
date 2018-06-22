@@ -25,7 +25,7 @@ public class PrefsFragment extends Fragment {
 
     private RecyclerView prefsRV;
 
-    private List<CustomizeItems> itemsList = new ArrayList<>();
+    private List<Object> itemsList = new ArrayList<>();
     private PrefsAdapter adapter;
 
     public PrefsFragment() {
@@ -83,7 +83,7 @@ public class PrefsFragment extends Fragment {
         itemsList.add(customizeItems5);
 
         adapter = new PrefsAdapter(getActivity(), itemsList);
-        prefsRV.setAdapter(adapter);
+//        prefsRV.setAdapter(adapter);
 
     }
 

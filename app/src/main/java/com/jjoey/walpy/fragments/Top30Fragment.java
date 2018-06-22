@@ -114,7 +114,10 @@ public class Top30Fragment extends Fragment {
 //        Log.d(TAG, "Next Page:\t" + newIndex);
         Log.d(TAG, "Next Page Index:\t" + PAGE_INDEX);
 
-        String new_url = url + PAGE_INDEX;
+        String new_url = null;
+        while (PAGE_INDEX < PAGE_COUNT){
+            new_url = url + PAGE_INDEX;
+        }
         Log.d(TAG, "Next Page URL:\t" + new_url);
         AndroidNetworking.get(new_url)
                 .setTag("Load Next Top30")

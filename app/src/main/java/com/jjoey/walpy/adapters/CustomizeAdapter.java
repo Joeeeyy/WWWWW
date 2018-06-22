@@ -265,16 +265,6 @@ public class CustomizeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return ITEMS_VIEW;
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (position == 0) {
-//            return HEADER_VIEW;
-//        } else if (position == itemsList.size() + 1) {
-//            return FOOTER_VIEW;
-//        }
-//        return ITEMS_VIEW;
-//    }
-
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
