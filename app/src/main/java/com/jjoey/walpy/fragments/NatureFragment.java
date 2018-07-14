@@ -16,9 +16,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.NatureWallpaperAdapter;
-import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
-import com.jjoey.walpy.models.PixaImages;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
 
@@ -40,7 +38,6 @@ public class NatureFragment extends Fragment {
 
     private List<Object> objectList = new ArrayList<>();
     private NatureWallpaperAdapter wallpaperAdapter;
-    private PixaImages pixaImages;
 
     private static final int PAGE_INDEX = 1;
     private static final int PER_PAGE = 20;
@@ -96,7 +93,7 @@ public class NatureFragment extends Fragment {
                                 for (int p = 0; p < results.length(); p++){
                                     JSONObject items = results.getJSONObject(p);
 
-                                    UnsplashImages images = new UnsplashImages();
+                                    Results images = new Results();
                                     images.setImageId(items.getString("id"));
 
                                     JSONObject urls = items.getJSONObject("urls");
@@ -132,7 +129,6 @@ public class NatureFragment extends Fragment {
     public void onPause() {
         super.onPause();
         objectList.clear();
-        objectList.remove(pixaImages);
         Log.d(TAG, "onPause---Size:\t" + objectList.size());
     }
 
@@ -140,7 +136,6 @@ public class NatureFragment extends Fragment {
     public void onStop() {
         super.onStop();
         objectList.clear();
-        objectList.remove(pixaImages);
         Log.d(TAG, "onStop---Size:\t" + objectList.size());
     }
 
@@ -148,7 +143,6 @@ public class NatureFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         objectList.clear();
-        objectList.remove(pixaImages);
         Log.d(TAG, "onDestroy---Size:\t" + objectList.size());
     }
 

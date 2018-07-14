@@ -11,7 +11,7 @@ public class Favorites extends Model{
     public String favoritesId;
 
     @Column(name = "image_id")
-    public int imageId;
+    public String imageId;
 
     @Column(name = "large_img_url")
     public String largeImgURL;
@@ -19,13 +19,20 @@ public class Favorites extends Model{
     @Column(name = "preview_img")
     public String previewImgURL;
 
+    @Column(name = "small_img")
+    public String smallImgURL;
+
+    public Results results;
+
     public Favorites() { }
 
-    public Favorites(String favoritesId, int imageId, String largeImgURL, String previewImgURL) {
+    public Favorites(String favoritesId, String imageId, String largeImgURL, String previewImgURL, String smallImgURL, Results results) {
         this.favoritesId = favoritesId;
         this.imageId = imageId;
         this.largeImgURL = largeImgURL;
         this.previewImgURL = previewImgURL;
+        this.smallImgURL = smallImgURL;
+        this.results = results;
     }
 
     public String getFavoritesId() {
@@ -36,11 +43,11 @@ public class Favorites extends Model{
         this.favoritesId = favoritesId;
     }
 
-    public int getImageId() {
+    public String getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(String imageId) {
         this.imageId = imageId;
     }
 
@@ -59,4 +66,21 @@ public class Favorites extends Model{
     public void setPreviewImgURL(String previewImgURL) {
         this.previewImgURL = previewImgURL;
     }
+
+    public String getSmallImgURL() {
+        return smallImgURL;
+    }
+
+    public void setSmallImgURL(String smallImgURL) {
+        this.smallImgURL = smallImgURL;
+    }
+
+    public Results getResults() {
+        return results;
+    }
+
+    public void setResults(Results results) {
+        this.results = results;
+    }
+
 }

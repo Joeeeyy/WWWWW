@@ -16,7 +16,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.Top30Adapter;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.PaginationScrollListener;
 import com.jjoey.walpy.utils.Utils;
@@ -37,7 +37,7 @@ public class Top30Fragment extends Fragment {
 
     private RecyclerView top30RV;
 
-    private List<UnsplashImages> itemsList = new ArrayList<>();
+    private List<Object> itemsList = new ArrayList<>();
     private Top30Adapter adapter;
 
     private int PAGE_COUNT;
@@ -76,33 +76,33 @@ public class Top30Fragment extends Fragment {
         adapter = new Top30Adapter(getActivity(), itemsList);
         top30RV.setAdapter(adapter);
 
-        top30RV.addOnScrollListener(new PaginationScrollListener(llm) {
-            @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                PAGE_INDEX += 1;
-                Log.d(TAG, "Page Index:\t" + PAGE_INDEX);
-
-                loadNextPage();
-
-            }
-
-            @Override
-            protected int getTotalPageCount() {
-                return PAGE_COUNT;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-
-        });
+//        top30RV.addOnScrollListener(new PaginationScrollListener(llm) {
+//            @Override
+//            protected void loadMoreItems() {
+//                isLoading = true;
+//                PAGE_INDEX += 1;
+//                Log.d(TAG, "Page Index:\t" + PAGE_INDEX);
+//
+//                loadNextPage();
+//
+//            }
+//
+//            @Override
+//            protected int getTotalPageCount() {
+//                return PAGE_COUNT;
+//            }
+//
+//            @Override
+//            public boolean isLoading() {
+//                return isLoading;
+//            }
+//
+//            @Override
+//            public boolean isLastPage() {
+//                return isLastPage;
+//            }
+//
+//        });
 
         adapter.notifyDataSetChanged();
 
@@ -110,8 +110,6 @@ public class Top30Fragment extends Fragment {
     }
 
     private void loadNextPage() {
-//        int newIndex = PAGE_INDEX +=1;
-//        Log.d(TAG, "Next Page:\t" + newIndex);
         Log.d(TAG, "Next Page Index:\t" + PAGE_INDEX);
 
         String new_url = null;
@@ -140,7 +138,7 @@ public class Top30Fragment extends Fragment {
                                 for (int p = 0; p < results.length(); p++){
                                     JSONObject items = results.getJSONObject(p);
 
-                                    UnsplashImages images = new UnsplashImages();
+                                    Results images = new Results();
                                     images.setImageId(items.getString("id"));
 
                                     JSONObject urls = items.getJSONObject("urls");
@@ -178,7 +176,6 @@ public class Top30Fragment extends Fragment {
     }
 
     private void fetchWallpapers() {
-
         String firstUrl = url + PAGE_INDEX;
         Log.d(TAG, "Top30 Unsplash URL:\t" + firstUrl)
         ;
@@ -202,7 +199,7 @@ public class Top30Fragment extends Fragment {
                                 for (int p = 0; p < results.length(); p++){
                                     JSONObject items = results.getJSONObject(p);
 
-                                    UnsplashImages images = new UnsplashImages();
+                                    Results images = new Results();
                                     images.setImageId(items.getString("id"));
 
                                     JSONObject urls = items.getJSONObject("urls");
@@ -231,6 +228,7 @@ public class Top30Fragment extends Fragment {
 
                     }
                 });
+
     }
 
 }

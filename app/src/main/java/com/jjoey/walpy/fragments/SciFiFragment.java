@@ -16,7 +16,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
 
@@ -110,7 +110,7 @@ public class SciFiFragment extends Fragment {
                                 for (int p = 0; p < results.length(); p++){
                                     JSONObject items = results.getJSONObject(p);
 
-                                    UnsplashImages images = new UnsplashImages();
+                                    Results images = new Results();
                                     images.setImageId(items.getString("id"));
 
                                     JSONObject urls = items.getJSONObject("urls");

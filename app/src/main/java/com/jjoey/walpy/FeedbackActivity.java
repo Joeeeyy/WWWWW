@@ -1,18 +1,23 @@
 package com.jjoey.walpy;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
 import com.jjoey.walpy.interfaces.RecyclerClickListener;
@@ -51,9 +56,30 @@ public class FeedbackActivity extends AppCompatActivity {
         sendFdbkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (inputFdbkET.getText().toString().length() <= 0 || TextUtils.isEmpty(inputFdbkET.getText().toString())){
+                    Snackbar.make(findViewById(android.R.id.content), "Message Body Should Not Be Empty", Snackbar.LENGTH_LONG).show();
+                } else {
+                    sendFeedbackMsg(inputFdbkET.getText().toString());
+                }
             }
         });
+    }
+
+    private void sendFeedbackMsg(String s) {
+        Intent mailIntent = new Intent(Intent.ACTION_SEND);
+        mailIntent.setType("text/plain");
+        mailIntent.setData(Uri.parse("mailto:"));
+        mailIntent.putExtra(Intent.EXTRA_EMAIL, "joseph.ibeawuchi@gmail.com");
+        mailIntent.putExtra(Intent.EXTRA_CC, "youngjoey242@gmail.com");
+        mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Walpy Feedback");
+        mailIntent.putExtra(Intent.EXTRA_TEXT, s);
+
+        try {
+            startActivity(Intent.createChooser(mailIntent, "Send With..."));
+        } catch (ActivityNotFoundException aex){
+            aex.printStackTrace();
+            Toast.makeText(this, "No Email Clients Found on Your Device", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpDrawer() {
@@ -75,7 +101,7 @@ public class FeedbackActivity extends AppCompatActivity {
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
         list.add(itemsDrawer3);
 
-        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
+        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn_new);
         list.add(itemsDrawer4);
 
         itemsDrawerAdapter = new ItemsDrawerAdapter(this, list);
@@ -86,12 +112,12 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     private void handleDrawerEvents() {
+        setDrawerClickListener();
         navigationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    setDrawerClickListener();
                 } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
@@ -155,6 +181,8 @@ public class FeedbackActivity extends AppCompatActivity {
         navigationIcon = findViewById(R.id.navigationIcon);
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerRV = findViewById(R.id.drawerRV);
+        inputFdbkET = findViewById(R.id.inputFdbkET);
+        sendFdbkBtn = findViewById(R.id.sendFdbkBtn);
     }
 
     @Override

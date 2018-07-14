@@ -16,10 +16,10 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="walpy.db" />
+            android:value="wall_py.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1001" />
+            android:value="1011" />
 
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -32,7 +32,8 @@
         <activity android:name=".CustomizeActivity" />
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".ReviewActivity" />
-        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".FeedbackActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".PreviewWallPaperActivity" />
         <activity android:name=".UserPreferencesActivity"></activity>
     </application>

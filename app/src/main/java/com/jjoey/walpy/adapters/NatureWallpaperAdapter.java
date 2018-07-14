@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.models.Favorites;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.viewholders.WallpaperItemViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -28,7 +28,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
 
     private final Context context;
     private List<Object> itemsList;
-    private UnsplashImages unsplashImages;
+    private Results results;
     private View view;
 
     public NatureWallpaperAdapter(Context context, List<Object> itemsList) {
@@ -45,9 +45,9 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
     @Override
     public void onBindViewHolder(final WallpaperItemViewHolder viewholder, final int position) {
 
-        unsplashImages = (UnsplashImages) itemsList.get(position);
+        results = (Results) itemsList.get(position);
         Picasso.with(context)
-                .load(unsplashImages.getRegularImg())
+                .load(results.getSmallImg())
                 .placeholder(R.drawable.drawer_header_trimmed)
                 .into(viewholder.wallpaperItemImg);
 
@@ -55,12 +55,13 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
             @Override
             public void onClick(View view) {
                 Favorites favorites = new Favorites();
+                favorites.results = (Results) itemsList.get(position);
                 favorites.setFavoritesId(UUID.randomUUID().toString());
-                favorites.setLargeImgURL(unsplashImages.getRegularImg());
-                favorites.setPreviewImgURL(unsplashImages.getRegularImg());
+                favorites.setLargeImgURL(favorites.getResults().getRegularImg());
+                favorites.setSmallImgURL(favorites.getResults().getSmallImg());
+                favorites.setPreviewImgURL(favorites.getResults().getRegularImg());
                 favorites.save();
                 Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -70,7 +71,7 @@ public class NatureWallpaperAdapter extends RecyclerView.Adapter<WallpaperItemVi
                 final WallpaperManager wpm = WallpaperManager.getInstance(context);
 
                 Picasso.with(context)
-                        .load(((UnsplashImages) itemsList.get(position)).getRegularImg())
+                        .load(((Results) itemsList.get(position)).getRegularImg())
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

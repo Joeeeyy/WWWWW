@@ -15,11 +15,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.adapters.MiscAdapter;
-import com.jjoey.walpy.adapters.ScifiWallpaperAdapter;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.utils.Utils;
 
@@ -108,7 +106,7 @@ public class MiscFragment extends Fragment {
                                 for (int m = 0; m < jsonArray.length(); m++) {
                                     JSONObject object = jsonArray.getJSONObject(m);
 
-                                    UnsplashImages images = new UnsplashImages();
+                                    Results images = new Results();
                                     images.setImageId(object.getString("id"));
 
                                     JSONObject urls = object.getJSONObject("urls");

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.models.Favorites;
-import com.jjoey.walpy.models.UnsplashImages;
+import com.jjoey.walpy.models.Results;
 import com.jjoey.walpy.viewholders.LoadingViewHolder;
 import com.jjoey.walpy.viewholders.WallpaperItemViewHolder;
 import com.squareup.picasso.Picasso;
@@ -29,9 +29,9 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final String TAG = Top30Adapter.class.getSimpleName();
 
     private final Context context;
-    private List<UnsplashImages> itemsList;
+    private List<Object> itemsList;
 
-    private UnsplashImages unsplashImages;
+    private Results results;
 
     private static final int ITEMS = 0;
     private static final int PROGRESS = 1;
@@ -43,7 +43,7 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 //    private PaginationAdapterCallback mCallback;
 
-    public Top30Adapter(Context context, List<UnsplashImages> itemsList) {
+    public Top30Adapter(Context context, List<Object> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
     }
@@ -65,10 +65,10 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position) {
         switch (getItemViewType(position)){
             case ITEMS:
-                WallpaperItemViewHolder wallpaperItemViewHolder = (WallpaperItemViewHolder) viewholder;
-                unsplashImages = (UnsplashImages) itemsList.get(position);
+                final WallpaperItemViewHolder wallpaperItemViewHolder = (WallpaperItemViewHolder) viewholder;
+                results = (Results) itemsList.get(position);
                 Picasso.with(context)
-                        .load(unsplashImages.getRegularImg())
+                        .load(results.getSmallImg())
                         .placeholder(R.drawable.drawer_header_trimmed)
                         .into(wallpaperItemViewHolder.wallpaperItemImg);
 
@@ -76,9 +76,11 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     @Override
                     public void onClick(View view) {
                         Favorites favorites = new Favorites();
+                        favorites.results = (Results) itemsList.get(position);
                         favorites.setFavoritesId(UUID.randomUUID().toString());
-                        favorites.setLargeImgURL(unsplashImages.getRegularImg());
-                        favorites.setPreviewImgURL(unsplashImages.getRegularImg());
+                        favorites.setLargeImgURL(favorites.getResults().getRegularImg());
+                        favorites.setSmallImgURL(favorites.getResults().getSmallImg());
+                        favorites.setPreviewImgURL(favorites.getResults().getRegularImg());
                         favorites.save();
                         Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
 
@@ -91,7 +93,7 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         final WallpaperManager wpm = WallpaperManager.getInstance(context);
 
                         Picasso.with(context)
-                                .load(((UnsplashImages) itemsList.get(position)).getRegularImg())
+                                .load(((Results) itemsList.get(position)).getRegularImg())
                                 .into(new Target() {
                                     @Override
                                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -149,27 +151,27 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return (position == itemsList.size() - 1 && isLoadingAdded) ? PROGRESS : ITEMS;
     }
 
-    public void addImage(UnsplashImages images){
+    public void addImage(Results images){
         itemsList.add(images);
         notifyItemInserted(itemsList.size() - 1);
     }
 
-    public void addAllImages(List<UnsplashImages> list){
-        for (UnsplashImages images : list){
+    public void addAllImages(List<Results> list){
+        for (Results images : list){
             addImage(images);
         }
     }
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        addImage(new UnsplashImages());
+        addImage(new Results());
     }
 
     public void removeLoadingFooter(){
         isLoadingAdded = false;
 
         int position = itemsList.size() - 1;
-        UnsplashImages unsplashImages = getItem(position);
+        Object unsplashImages = getItem(position);
 
         if (unsplashImages != null){
             itemsList.remove(unsplashImages);
@@ -178,7 +180,7 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    private UnsplashImages getItem(int position) {
+    private Object getItem(int position) {
         return itemsList.get(position);
     }
 

@@ -71,7 +71,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
         drawerList.add(itemsDrawer3);
 
-        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
+        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn_new);
         drawerList.add(itemsDrawer4);
 
         itemsDrawerAdapter = new ItemsDrawerAdapter(this, drawerList);

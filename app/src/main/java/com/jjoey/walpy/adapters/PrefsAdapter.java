@@ -1,9 +1,6 @@
 package com.jjoey.walpy.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,18 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
-import com.jjoey.walpy.MainActivity;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.fragments.NatureFragment;
 import com.jjoey.walpy.fragments.SpaceFragment;
 import com.jjoey.walpy.models.AdapterHeaderItem;
-import com.jjoey.walpy.models.CustomizeFooter;
 import com.jjoey.walpy.models.CustomizeItems;
 import com.jjoey.walpy.models.PrefsCustomizeFooter;
 import com.jjoey.walpy.utils.Constants;
 import com.jjoey.walpy.viewholders.AdapterHeaderItemViewHolder;
 import com.jjoey.walpy.viewholders.CustomizeFooterViewHolder;
-import com.jjoey.walpy.viewholders.CustomizeItemsViewHolder;
 import com.jjoey.walpy.viewholders.PrefsCustomizeFooterViewHolder;
 import com.jjoey.walpy.viewholders.PrefsCustomizeViewHolder;
 import com.squareup.picasso.Picasso;
@@ -49,7 +43,7 @@ public class PrefsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private String nature, space, seasons, art, scifi, misc;
     private String tabNature, tabSpace, tabSeasons, tabArt, tabScifi, tabMisc;
 
-    private int prefs_count = 0;
+    private int checked_count = 0, unChecked_count = 0;
 
     public PrefsAdapter(Context context, List<Object> itemsList) {
         this.context = context;
@@ -210,39 +204,27 @@ public class PrefsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     switch (position) {
-                        case 0:
+                        case 1:
                             if (holder.prefsCheckBox.isChecked()) {
                                 holder.prefsCheckBox.setChecked(false);
 
-                                CustomizeItems.delete(CustomizeItems.class, id_nature);
+                                unChecked_count++;
+                                Log.d(TAG, "Unchecked Count:\t" + unChecked_count);
+
+//                                CustomizeItems.delete(CustomizeItems.class, id_nature);
                                 pagerAdapter.removeTab(new NatureFragment(), Constants.NATURE);
                             } else {
                                 holder.prefsCheckBox.setChecked(true);
                                 customizeItems.setTabId(UUID.randomUUID().toString());
                                 customizeItems.setTabName(Constants.NATURE);
-                                customizeItems.save();
+//                                customizeItems.save();
+
+                                unChecked_count -= 1;
+                                Log.d(TAG, "Unchecked Count:\t" + unChecked_count);
+                                checked_count += 1;
+                                Log.d(TAG, "Checked Count:\t" + checked_count);
 
                                 pagerAdapter.addTab(new NatureFragment(), Constants.NATURE);
-
-                                holder.prefsCheckBox.setVisibility(View.VISIBLE);
-                            }
-                            break;
-                        case 1:
-                            if (holder.prefsCheckBox.isChecked()) {
-                                holder.prefsCheckBox.setChecked(false);
-
-                                CustomizeItems.delete(CustomizeItems.class, id_space);
-                                Log.d(TAG, "Deleted Space id:\t" + id_space); // prints right log detail
-                                pagerAdapter.removeTab(new SpaceFragment(), Constants.SPACE);
-
-                            } else {
-                                holder.prefsCheckBox.setChecked(true);
-
-                                customizeItems.setTabId(UUID.randomUUID().toString());
-                                customizeItems.setTabName(Constants.NATURE);
-                                customizeItems.save();
-
-                                pagerAdapter.addTab(new SpaceFragment(), Constants.SPACE);
 
                                 holder.prefsCheckBox.setVisibility(View.VISIBLE);
                             }
@@ -250,8 +232,29 @@ public class PrefsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         case 2:
                             if (holder.prefsCheckBox.isChecked()) {
                                 holder.prefsCheckBox.setChecked(false);
+
+                                unChecked_count++;
+                                Log.d(TAG, "Unchecked Count:\t" + unChecked_count);
+
+//                                CustomizeItems.delete(CustomizeItems.class, id_space);
+                                Log.d(TAG, "Deleted Space id:\t" + id_space);
+                                pagerAdapter.removeTab(new SpaceFragment(), Constants.SPACE);
+
                             } else {
                                 holder.prefsCheckBox.setChecked(true);
+
+                                customizeItems.setTabId(UUID.randomUUID().toString());
+                                customizeItems.setTabName(Constants.NATURE);
+//                                customizeItems.save();
+
+                                unChecked_count -= 1;
+                                Log.d(TAG, "Unchecked Count:\t" + unChecked_count);
+                                checked_count += 1;
+                                Log.d(TAG, "Checked Count:\t" + checked_count);
+
+                                pagerAdapter.addTab(new SpaceFragment(), Constants.SPACE);
+
+                                holder.prefsCheckBox.setVisibility(View.VISIBLE);
                             }
                             break;
                         case 3:
@@ -264,11 +267,18 @@ public class PrefsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         case 4:
                             if (holder.prefsCheckBox.isChecked()) {
                                 holder.prefsCheckBox.setChecked(false);
+                            } else {
+                                holder.prefsCheckBox.setChecked(true);
+                            }
+                            break;
+                        case 5:
+                            if (holder.prefsCheckBox.isChecked()) {
+                                holder.prefsCheckBox.setChecked(false);
 
                             } else {
                                 holder.prefsCheckBox.setChecked(true);
                             }
-                        case 5:
+                        case 6:
                             if (holder.prefsCheckBox.isChecked()) {
                                 holder.prefsCheckBox.setChecked(false);
 
@@ -311,8 +321,8 @@ public class PrefsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public int getNumChecked() {
-        Log.d(TAG, "Num Checked Value:\t" + prefs_count);
-        return prefs_count;
+        Log.d(TAG, "Num Checked Value:\t" + checked_count);
+        return checked_count;
     }
 
 }

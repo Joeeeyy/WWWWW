@@ -69,7 +69,13 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void getFavorites() {
         favsRV.setHasFixedSize(true);
-        favsRV.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.setReverseLayout(true);
+        llm.setStackFromEnd(true);
+
+        favsRV.setLayoutManager(llm);
         favsRV.setEmptyView(emptyState);
 
         itemsList = getAllFavorites();
@@ -99,7 +105,7 @@ public class FavoritesActivity extends AppCompatActivity {
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
         list.add(itemsDrawer3);
 
-        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
+        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn_new);
         list.add(itemsDrawer4);
 
         itemsDrawerAdapter = new ItemsDrawerAdapter(this, list);

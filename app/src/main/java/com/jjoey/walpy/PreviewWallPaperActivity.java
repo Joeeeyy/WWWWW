@@ -1,13 +1,10 @@
 package com.jjoey.walpy;
 
-import android.app.WallpaperManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.jjoey.walpy.adapters.ItemsDrawerAdapter;
 import com.jjoey.walpy.fragments.SetWallpaperOptionsDialog;
@@ -24,10 +20,10 @@ import com.jjoey.walpy.models.ItemsDrawer;
 import com.jjoey.walpy.models.ItemsHeader;
 import com.jjoey.walpy.utils.RecyclerItemTouchListener;
 import com.jjoey.walpy.utils.RoundedCornerImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +51,9 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setUpDrawer();
 
+        final String fav_id = getIntent().getStringExtra("fav_id");
         final String large_url = getIntent().getStringExtra("large_url");
+        final String small_url = getIntent().getStringExtra("small_url");
         final String preview_url = getIntent().getStringExtra("preview_url");
 
         Picasso.with(PreviewWallPaperActivity.this)
@@ -66,18 +64,20 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         setWallpaperLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSetOptionsDialog(large_url, preview_url);
-                //setAsWallPaper(large_url);
+                showSetOptionsDialog(fav_id, small_url, large_url, preview_url);
             }
         });
 
     }
 
-    private void showSetOptionsDialog(String large_url, String preview_url) {
+    private void showSetOptionsDialog(String fav_id, String small_url, String large_url, String preview_url) {
+
         SetWallpaperOptionsDialog optionsDialog = new SetWallpaperOptionsDialog();
         Bundle bundle = new Bundle();
-        bundle.putString("large_url", large_url);
-        bundle.putString("preview_url", preview_url);
+
+        bundle.putString("fav_id", fav_id);
+        Log.d(TAG, "Favorite id to Frag:\t" + fav_id);
+
         optionsDialog.show(getSupportFragmentManager(), "SetWallpaperOptionsDialog");
     }
 
@@ -136,15 +136,13 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
                         startActivity(new Intent(PreviewWallPaperActivity.this, FavoritesActivity.class));
                         break;
                     case 3:
-//                        startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+                        startActivity(new Intent(PreviewWallPaperActivity.this, UserPreferencesActivity.class));
                         break;
                     case 4:
                         startActivity(new Intent(PreviewWallPaperActivity.this, ReviewActivity.class));
                         break;
                     case 5:
                         startActivity(new Intent(PreviewWallPaperActivity.this, FeedbackActivity.class));
-                        break;
-                    case 6:
                         break;
                 }
             }
@@ -186,4 +184,5 @@ public class PreviewWallPaperActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(PreviewWallPaperActivity.this, MainActivity.class));
     }
+
 }

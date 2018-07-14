@@ -1,6 +1,5 @@
 package com.jjoey.walpy.adapters;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +17,7 @@ import com.jjoey.walpy.models.AdapterHeaderItem;
 import com.jjoey.walpy.models.CustomizeFooter;
 import com.jjoey.walpy.models.CustomizeItems;
 import com.jjoey.walpy.utils.Constants;
+import com.jjoey.walpy.utils.WalpyPrefs;
 import com.jjoey.walpy.viewholders.AdapterHeaderItemViewHolder;
 import com.jjoey.walpy.viewholders.CustomizeFooterViewHolder;
 import com.jjoey.walpy.viewholders.CustomizeItemsViewHolder;
@@ -40,9 +40,12 @@ public class CustomizeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static int count = 0;
     private long id;
 
+    private WalpyPrefs prefs;
+
     public CustomizeAdapter(Context context, List<Object> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
+        prefs = new WalpyPrefs(context);
     }
 
     @Override
@@ -74,12 +77,13 @@ public class CustomizeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         } else if (viewholder instanceof CustomizeFooterViewHolder) {
 
-            CustomizeFooter customizeFooter = (CustomizeFooter) itemsList.get(position);
+            final CustomizeFooter customizeFooter = (CustomizeFooter) itemsList.get(position);
             CustomizeFooterViewHolder footerViewHolder = (CustomizeFooterViewHolder) viewholder;
             footerViewHolder.letsGoBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (getNumChecked() > 0){
+                        prefs.setCountChecked(getNumChecked());
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity)context).finish();
                     } else {
@@ -278,7 +282,4 @@ public class CustomizeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return count;
     }
 
-    public int invalidateCount() {
-        return count = 0;
-    }
 }

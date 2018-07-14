@@ -1,76 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="200dp"
-    android:background="@drawable/set_options_bkg"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="340dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
     android:layout_centerInParent="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="10dp"
-        android:layout_centerInParent="true">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imV"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/art_card"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:gravity="center_horizontal"
+            android:text="@string/set_for"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/set_for"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/open_sans_semi_bold"
-                android:textColor="@android:color/black"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/homeCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/popup_checkbox_selector"
+            android:checked="false"
+            android:paddingLeft="16dp"
+            android:text="@string/home_screen"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <CheckBox
-                android:id="@+id/homeCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_screen"
-                android:button="@drawable/popup_checkbox_selector"
-                android:checked="false"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingLeft="16dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"/>
+        <CheckBox
+            android:id="@+id/lockCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:button="@drawable/popup_checkbox_selector"
+            android:checked="false"
+            android:paddingLeft="16dp"
+            android:text="@string/lock_screen"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <CheckBox
-                android:id="@+id/lockCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lock_screen"
-                android:checked="false"
-                android:button="@drawable/popup_checkbox_selector"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingLeft="16dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center_horizontal"/>
+        <Button
+            android:id="@+id/setBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/send_btn_bkg"
+            android:elevation="8dp"
+            android:stateListAnimator="@null"
+            android:text="@string/set"
+            android:translationZ="2dp" />
 
-            <Button
-                android:id="@+id/setBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/set"
-                android:translationZ="2dp"
-                android:elevation="8dp"
-                android:stateListAnimator="@null"
-                android:background="@drawable/send_btn_bkg"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"/>
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-</RelativeLayout>
+</android.support.v7.widget.CardView>

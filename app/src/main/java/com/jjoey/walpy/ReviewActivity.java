@@ -63,7 +63,7 @@ public class ReviewActivity extends AppCompatActivity {
         ItemsDrawer itemsDrawer3 = new ItemsDrawer(R.drawable.reviewus_btn);
         list.add(itemsDrawer3);
 
-        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn);
+        ItemsDrawer itemsDrawer4 = new ItemsDrawer(R.drawable.feedback_btn_new);
         list.add(itemsDrawer4);
 
         itemsDrawerAdapter = new ItemsDrawerAdapter(this, list);
