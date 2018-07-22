@@ -4,7 +4,6 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.jjoey.walpy.R;
 import com.jjoey.walpy.models.Favorites;
 import com.jjoey.walpy.models.Results;
-import com.jjoey.walpy.viewholders.LoadingViewHolder;
 import com.jjoey.walpy.viewholders.WallpaperItemViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -31,18 +29,6 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final Context context;
     private List<Object> itemsList;
 
-    private Results results;
-
-    private static final int ITEMS = 0;
-    private static final int PROGRESS = 1;
-
-    private boolean isLoadingAdded = false;
-    private boolean retryPageLoad = false;
-
-    private String errorMsg;
-
-//    private PaginationAdapterCallback mCallback;
-
     public Top30Adapter(Context context, List<Object> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
@@ -50,92 +36,68 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType){
-            case ITEMS:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpaper_items_layout, parent, false);
-                return new WallpaperItemViewHolder(view);
-            case PROGRESS:
-                View pv = LayoutInflater.from(parent.getContext()).inflate(R.layout.progress_items_layout, parent, false);
-                return new LoadingViewHolder(pv);
-        }
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallpaper_items_layout, parent, false);
+        return new WallpaperItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewholder, final int position) {
-        switch (getItemViewType(position)){
-            case ITEMS:
-                final WallpaperItemViewHolder wallpaperItemViewHolder = (WallpaperItemViewHolder) viewholder;
-                results = (Results) itemsList.get(position);
+
+        final WallpaperItemViewHolder wallpaperItemViewHolder = (WallpaperItemViewHolder) viewholder;
+        Results results = (Results) itemsList.get(position);
+        Picasso.with(context)
+                .load(results.getSmallImg())
+                .placeholder(R.drawable.drawer_header_trimmed)
+                .into(wallpaperItemViewHolder.wallpaperItemImg);
+
+        wallpaperItemViewHolder.favoriteWP_IV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Favorites favorites = new Favorites();
+                favorites.results = (Results) itemsList.get(position);
+                favorites.setFavoritesId(UUID.randomUUID().toString());
+                favorites.setLargeImgURL(favorites.getResults().getRegularImg());
+                favorites.setSmallImgURL(favorites.getResults().getSmallImg());
+                favorites.setPreviewImgURL(favorites.getResults().getRegularImg());
+                favorites.save();
+                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        wallpaperItemViewHolder.setWallPaper_TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final WallpaperManager wpm = WallpaperManager.getInstance(context);
+
                 Picasso.with(context)
-                        .load(results.getSmallImg())
-                        .placeholder(R.drawable.drawer_header_trimmed)
-                        .into(wallpaperItemViewHolder.wallpaperItemImg);
+                        .load(((Results) itemsList.get(position)).getRegularImg())
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                try {
+                                    wpm.setBitmap(bitmap);
+                                    Toast.makeText(context, "Your New Wallpaper Has Been Set", Toast.LENGTH_SHORT).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                wallpaperItemViewHolder.favoriteWP_IV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Favorites favorites = new Favorites();
-                        favorites.results = (Results) itemsList.get(position);
-                        favorites.setFavoritesId(UUID.randomUUID().toString());
-                        favorites.setLargeImgURL(favorites.getResults().getRegularImg());
-                        favorites.setSmallImgURL(favorites.getResults().getSmallImg());
-                        favorites.setPreviewImgURL(favorites.getResults().getRegularImg());
-                        favorites.save();
-                        Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+                                Log.d(TAG, "Bitmap Load Failed");
+                                Toast.makeText(context, "Could Not Set Wallpaper...Choose Another", Toast.LENGTH_SHORT).show();
+                            }
 
-                    }
-                });
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                Log.d(TAG, "Prep to Load Bitmap");
+                            }
+                        });
 
-                wallpaperItemViewHolder.setWallPaper_TV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final WallpaperManager wpm = WallpaperManager.getInstance(context);
+            }
+        });
 
-                        Picasso.with(context)
-                                .load(((Results) itemsList.get(position)).getRegularImg())
-                                .into(new Target() {
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                        try {
-                                            wpm.setBitmap(bitmap);
-                                            Toast.makeText(context, "Your New Wallpaper Has Been Set", Toast.LENGTH_SHORT).show();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onBitmapFailed(Drawable errorDrawable) {
-                                        Log.d(TAG, "Bitmap Load Failed");
-                                        Toast.makeText(context, "Could Not Set Wallpaper...Choose Another", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                        Log.d(TAG, "Prep to Load Bitmap");
-                                    }
-                                });
-
-                    }
-                });
-                break;
-            case PROGRESS:
-                LoadingViewHolder loadingViewHolder = (LoadingViewHolder) viewholder;
-                if (retryPageLoad){
-                    loadingViewHolder.mErrorLayout.setVisibility(View.VISIBLE);
-                    loadingViewHolder.mProgressBar.setVisibility(View.GONE);
-
-                    loadingViewHolder.mErrorTxt.setText(errorMsg != null
-                            ? errorMsg
-                            : context.getString(R.string.error_msg_unknown));
-
-                } else {
-                    loadingViewHolder.mErrorLayout.setVisibility(View.GONE);
-                    loadingViewHolder.mProgressBar.setVisibility(View.VISIBLE);
-                }
-                break;
-        }
     }
 
     @Override
@@ -144,50 +106,6 @@ public class Top30Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return 0;
         }
         return itemsList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == itemsList.size() - 1 && isLoadingAdded) ? PROGRESS : ITEMS;
-    }
-
-    public void addImage(Results images){
-        itemsList.add(images);
-        notifyItemInserted(itemsList.size() - 1);
-    }
-
-    public void addAllImages(List<Results> list){
-        for (Results images : list){
-            addImage(images);
-        }
-    }
-
-    public void addLoadingFooter() {
-        isLoadingAdded = true;
-        addImage(new Results());
-    }
-
-    public void removeLoadingFooter(){
-        isLoadingAdded = false;
-
-        int position = itemsList.size() - 1;
-        Object unsplashImages = getItem(position);
-
-        if (unsplashImages != null){
-            itemsList.remove(unsplashImages);
-            notifyItemRemoved(position);
-        }
-
-    }
-
-    private Object getItem(int position) {
-        return itemsList.get(position);
-    }
-
-    public void showRetry(boolean show, @Nullable String errorMsg){
-        retryPageLoad = true;
-        notifyItemChanged(itemsList.size() - 1);
-        if (errorMsg != null){this.errorMsg = errorMsg; } else { errorMsg = "Can't Fetch Wallpapers Now..."; }
     }
 
 }
